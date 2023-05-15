@@ -27,7 +27,11 @@ const Pagination = ({ limit, currentPage, totalPage, onPageChange }: Props) => {
   const renderOptions = () => {
     const options = [];
     for (let i = 2; i <= 10; i++) {
-      options.push(<option value={6 * i}>{6 * i}</option>);
+      options.push(
+        <option key={'page' + i} value={6 * i}>
+          {6 * i}
+        </option>
+      );
     }
     return options;
   };

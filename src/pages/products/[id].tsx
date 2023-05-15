@@ -82,6 +82,7 @@ const Image = styled.img`
   width: 85%;
   object-fit: cover;
   height: 500px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 `;
 
 const Title = styled.h1`
@@ -217,11 +218,15 @@ const CommentWrapper = styled.div`
     border-radius: 5px;
     align-items: center;
     width: 75%;
+    box-shadow: 0 0 15px rgba(2, 255, 234, 0.3);
+
     img {
       width: 70px;
       height: 70px;
       border-radius: 50%;
       margin-right: 25px;
+      border: 1px solid #ffffff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     }
     textarea {
       padding: 6px 20px;
@@ -242,6 +247,14 @@ const CommentWrapper = styled.div`
     }
   }
 `;
+const ListComment = styled.div`
+  border: 1px solid #7c7c7c;
+  border-radius: 10px;
+  width: 80%;
+  height: 480px;
+  margin-left: 10%;
+  overflow-y: scroll;
+`;
 
 const CommentTitle = styled.p`
   color: #0a022c;
@@ -249,6 +262,40 @@ const CommentTitle = styled.p`
   font-weight: bold;
   font-size: 25px;
   margin: 20px 40px;
+`;
+
+const ItemComment = styled.div`
+  margin: 20px;
+  padding: 10px 10px;
+  background-color: #9c9c9c;
+  border-radius: 10px;
+  display: flex;
+  img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-right: 25px;
+    border: 1px solid #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+`;
+const DetailComment = styled.div`
+  span {
+    color: #ffffff;
+    font-size: 15px;
+    padding-right: 10px;
+    margin-right: 10px;
+  }
+  span:nth-child(1) {
+    border-right: 1px solid #ccc;
+  }
+`;
+
+const ContentComment = styled.p`
+  max-height: 100px;
+  width: 100%;
+  padding: 10px;
+  overflow: auto;
 `;
 
 const DetailProduct = ({ data }: Props) => {
@@ -365,6 +412,18 @@ const DetailProduct = ({ data }: Props) => {
               <IoSend />
             </a>
           </form>
+          <ListComment>
+            <ItemComment>
+              <Image src={'http://localhost:7007/' + product.image.url} alt={product.name} />
+              <DetailComment>
+                <div>
+                  <span>Nguyễn Văn Khiêm</span>
+                  <span>22/07/2001</span>
+                </div>
+                <ContentComment>Nulla facilisi. Suspendisse vitae velit metus. lerisque massa,</ContentComment>
+              </DetailComment>
+            </ItemComment>
+          </ListComment>
         </CommentWrapper>
       )}
     </DetailProductContainer>
