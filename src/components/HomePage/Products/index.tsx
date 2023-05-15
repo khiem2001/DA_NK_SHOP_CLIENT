@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Product from './components/product';
 import Pagination from '@/components/Pagination';
-import { useListPoduct } from './services/hooks/useListProduct';
+import { useListProduct } from './services/hooks/useListProduct';
 import { ListProduct, ProductNotification, ProductsWrapper } from './productsStyled';
 import FilterProduct from './components/filterProduct';
+import { useProduct } from './services/hooks/useProduct';
 
 const Products = () => {
   const [limit, setLimit] = useState(12);
@@ -30,8 +31,7 @@ const Products = () => {
     setLimit(12);
     setPage(1);
   };
-  const { listProduct, isLoading } = useListPoduct(input);
-
+  const { listProduct, isLoading } = useListProduct(input);
   useEffect(() => {
     const filter: { type_eq?: string; price_gte?: number; price_lte?: number } = {};
     if (type_eq !== '') {
@@ -79,8 +79,7 @@ const Products = () => {
                   _id={obj._id || ''}
                   name={obj.name || ''}
                   description={obj.description || ''}
-                  countInStock={obj.countInStock || 0}
-                  total_like={obj.total_like || 0}
+                  totalSold={obj.totalSold || 0}
                   price={obj.price || 0}
                   imageUrl={`${process.env.NEXT_PUBLIC_MEDIA_ENDPOINT}${obj.image?.url || ''}`}
                 />

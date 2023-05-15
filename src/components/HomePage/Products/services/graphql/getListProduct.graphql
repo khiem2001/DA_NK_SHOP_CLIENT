@@ -1,11 +1,10 @@
-query getlistProduct($input: GetListProductInput!) {
+query getListProduct($input: GetListProductInput!) {
   getListProduct(input: $input) {
     products {
       _id
       name
       description
-      countInStock
-      total_like
+      totalSold
       price
       image {
         url

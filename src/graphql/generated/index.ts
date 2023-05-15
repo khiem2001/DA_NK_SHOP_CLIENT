@@ -359,8 +359,9 @@ export type ProductPayload = {
   name?: Maybe<Scalars['String']>;
   powerSource?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['Float']>;
-  total_comment?: Maybe<Scalars['String']>;
-  total_like?: Maybe<Scalars['Float']>;
+  totalComment?: Maybe<Scalars['Float']>;
+  totalLike?: Maybe<Scalars['Float']>;
+  totalSold?: Maybe<Scalars['Float']>;
   type?: Maybe<Scalars['String']>;
   video?: Maybe<Scalars['String']>;
   warranty?: Maybe<Scalars['String']>;
@@ -503,12 +504,19 @@ export type VerifyPhoneResponse = {
   verified: Scalars['Boolean'];
 };
 
-export type GetlistProductQueryVariables = Exact<{
+export type GetListProductQueryVariables = Exact<{
   input: GetListProductInput;
 }>;
 
 
-export type GetlistProductQuery = { __typename?: 'Query', getListProduct: { __typename?: 'GetListProductResponse', totalItem?: number | null, products?: Array<{ __typename?: 'ProductPayload', _id?: string | null, name?: string | null, description?: string | null, countInStock?: number | null, total_like?: number | null, price?: number | null, image?: { __typename?: 'Media', url?: string | null } | null }> | null, pagination?: { __typename?: 'PaginationResponse', totalPage?: number | null, currentPage?: number | null, pageSize?: number | null } | null } };
+export type GetListProductQuery = { __typename?: 'Query', getListProduct: { __typename?: 'GetListProductResponse', totalItem?: number | null, products?: Array<{ __typename?: 'ProductPayload', _id?: string | null, name?: string | null, description?: string | null, totalSold?: number | null, price?: number | null, image?: { __typename?: 'Media', url?: string | null } | null }> | null, pagination?: { __typename?: 'PaginationResponse', totalPage?: number | null, currentPage?: number | null, pageSize?: number | null } | null } };
+
+export type GetProductQueryVariables = Exact<{
+  input: ReadProductInputDto;
+}>;
+
+
+export type GetProductQuery = { __typename?: 'Query', getProduct: { __typename?: 'GetProductResponse', product?: { __typename?: 'ProductPayload', _id?: string | null, name?: string | null, description?: string | null, price?: number | null, countInStock?: number | null, manufacturer?: string | null, modelNumber?: string | null, dimensions?: string | null, weight?: string | null, connectivity?: string | null, powerSource?: string | null, compatibility?: string | null, warranty?: string | null, totalLike?: number | null, totalComment?: number | null, type?: string | null, totalSold?: number | null, image?: { __typename?: 'Media', url?: string | null } | null } | null } };
 
 export type ListTypeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -516,15 +524,14 @@ export type ListTypeQueryVariables = Exact<{ [key: string]: never; }>;
 export type ListTypeQuery = { __typename?: 'Query', listType: { __typename?: 'GetListTypeResponse', data?: Array<{ __typename?: 'ProductType', _id?: string | null, name?: string | null }> | null } };
 
 
-export const GetlistProductDocument = `
-    query getlistProduct($input: GetListProductInput!) {
+export const GetListProductDocument = `
+    query getListProduct($input: GetListProductInput!) {
   getListProduct(input: $input) {
     products {
       _id
       name
       description
-      countInStock
-      total_like
+      totalSold
       price
       image {
         url
@@ -539,18 +546,60 @@ export const GetlistProductDocument = `
   }
 }
     `;
-export const useGetlistProductQuery = <
-      TData = GetlistProductQuery,
+export const useGetListProductQuery = <
+      TData = GetListProductQuery,
       TError = unknown
     >(
       client: GraphQLClient,
-      variables: GetlistProductQueryVariables,
-      options?: UseQueryOptions<GetlistProductQuery, TError, TData>,
+      variables: GetListProductQueryVariables,
+      options?: UseQueryOptions<GetListProductQuery, TError, TData>,
       headers?: RequestInit['headers']
     ) =>
-    useQuery<GetlistProductQuery, TError, TData>(
-      ['getlistProduct', variables],
-      fetcher<GetlistProductQuery, GetlistProductQueryVariables>(client, GetlistProductDocument, variables, headers),
+    useQuery<GetListProductQuery, TError, TData>(
+      ['getListProduct', variables],
+      fetcher<GetListProductQuery, GetListProductQueryVariables>(client, GetListProductDocument, variables, headers),
+      options
+    );
+export const GetProductDocument = `
+    query getProduct($input: ReadProductInputDto!) {
+  getProduct(input: $input) {
+    product {
+      _id
+      name
+      description
+      price
+      countInStock
+      image {
+        url
+      }
+      manufacturer
+      modelNumber
+      dimensions
+      weight
+      connectivity
+      powerSource
+      compatibility
+      warranty
+      totalLike
+      totalComment
+      type
+      totalSold
+    }
+  }
+}
+    `;
+export const useGetProductQuery = <
+      TData = GetProductQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: GetProductQueryVariables,
+      options?: UseQueryOptions<GetProductQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<GetProductQuery, TError, TData>(
+      ['getProduct', variables],
+      fetcher<GetProductQuery, GetProductQueryVariables>(client, GetProductDocument, variables, headers),
       options
     );
 export const ListTypeDocument = `

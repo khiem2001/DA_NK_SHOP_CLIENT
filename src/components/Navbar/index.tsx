@@ -5,7 +5,7 @@ import logoImage from 'public/images/logo2.jpg';
 import { RiShoppingCartLine } from 'react-icons/ri';
 import { RiMessengerLine } from 'react-icons/ri';
 import { IoMdNotificationsOutline } from 'react-icons/io';
-import { VscAccount } from 'react-icons/vsc';
+import { RiUserReceived2Fill } from 'react-icons/ri';
 
 export default function Navbar() {
   return (
@@ -35,7 +35,7 @@ export default function Navbar() {
             </Item>
             <Item isSelected={false}>
               <Link href="/">
-                <VscAccount />
+                <RiUserReceived2Fill />
               </Link>
             </Item>
           </MenuItems>

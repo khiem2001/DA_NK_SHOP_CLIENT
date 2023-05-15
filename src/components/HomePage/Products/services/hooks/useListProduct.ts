@@ -1,13 +1,13 @@
 import { useMemo } from 'react';
-import { FilterProductInput, InputMaybe, PaginationBaseInput, useGetlistProductQuery } from '@/graphql/generated';
+import { FilterProductInput, PaginationBaseInput, useGetListProductQuery } from '@/graphql/generated';
 import { graphqlClientRequest } from '@/graphql/services/graphql-client';
 
-interface IProduct {
-  filter?: InputMaybe<FilterProductInput>;
+interface IProducts {
+  filter?: FilterProductInput;
   pagination: PaginationBaseInput;
 }
-export const useListPoduct = (props: IProduct) => {
-  const { data, isLoading } = useGetlistProductQuery(graphqlClientRequest(), {
+export const useListProduct = (props: IProducts) => {
+  const { data, isLoading } = useGetListProductQuery(graphqlClientRequest(), {
     input: { ...props }
   });
 

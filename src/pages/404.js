@@ -6,7 +6,7 @@ const NotFound = () => {
       <h1>404</h1>
       <h2 className="title">Oops! Page not found...</h2>
       <Link href="/">
-        Go back home <AiFillHome className="icon" />
+        Go Back Home <AiFillHome className="icon" />
       </Link>
     </div>
   );
