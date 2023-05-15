@@ -118,6 +118,7 @@ export type CreateProductInputDto = {
   name: Scalars['String'];
   powerSource: Scalars['String'];
   price: Scalars['Float'];
+  type: Scalars['String'];
   video: Scalars['String'];
   warranty: Scalars['String'];
   weight: Scalars['String'];
