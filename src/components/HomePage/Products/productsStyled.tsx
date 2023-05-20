@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import colors from '@/styles/colors';
-import { pixel2vw } from '../../../../utils/pixel2vw';
-import { pixel2fontSize } from '../../../../utils/pixel2fontSize';
+import { pixel2vw } from '../../../utils/pixel2vw';
+import { pixel2fontSize } from '../../../utils/pixel2fontSize';
 
 export const ProductsWrapper = styled.div`
   width: 100%;
@@ -165,4 +165,239 @@ export const FilterType = styled.div`
 `;
 export const FilterPrice = styled(FilterType)`
   float: right;
+`;
+
+export const DetailProductContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  padding: 5% 10%;
+  background-color: #fff;
+`;
+export const Imagewrapper = styled.span`
+  grid-column-end: span 2;
+`;
+export const InfoWrapper = styled.span`
+  grid-column-end: span 3;
+  padding: 0 30px;
+`;
+
+export const ImageProduct = styled.img`
+  width: 85%;
+  object-fit: cover;
+  height: 500px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+`;
+
+export const Title = styled.h1`
+  font-size: 2.5rem;
+  margin-top: 0.2rem;
+`;
+
+export const Description = styled.p`
+  font-size: 1.4rem;
+  margin: 2rem 0;
+`;
+
+export const Price = styled.p`
+  font-size: 2rem;
+  /* font-weight: bold; */
+  color: red;
+  background-color: #f1f0f0;
+  padding-left: 20px;
+  margin-bottom: 30px;
+`;
+
+export const Details = styled.div``;
+
+export const DetailItem = styled.p`
+  font-size: 1.3rem;
+  margin: 0.5rem 0;
+`;
+
+export const DetailLabel = styled.span`
+  font-weight: bold;
+  color: #302f2f;
+  margin-right: 0.8rem;
+`;
+
+export const Quantity = styled.p`
+  font-size: 1.3rem;
+  margin: 2rem 0;
+  button {
+    border: 1px solid #ccc;
+    padding: 5px 20px;
+    color: #918e8e;
+  }
+  span {
+    border: 1px solid #ccc;
+    padding: 8px 20px;
+    font-weight: bold;
+    color: #0d2f8d;
+  }
+`;
+
+export const QuantityLabel = styled.label`
+  font-weight: bold;
+  color: #302f2f;
+  margin-right: 2.8rem;
+`;
+
+export const CountInStockLabel = styled.label`
+  color: #615f5f;
+  margin-left: 2.8rem;
+`;
+export const DetailValue = styled.span`
+  color: #494949;
+`;
+export const DetailOfUsers = styled.span`
+  color: #000000;
+  margin: 60px 10px;
+  display: flex;
+  font-size: 22px;
+  a,
+  span {
+    margin-right: 65px;
+    svg {
+      display: inline-block;
+      margin-right: 8px;
+    }
+  }
+  a:hover {
+    color: #ff4b04;
+  }
+`;
+
+export const BuyWrapper = styled.div`
+  margin: 4rem 0;
+  a:nth-child(1) {
+    color: #ff7011;
+    padding: 15px 25px;
+    border: 1px solid #ff5f03;
+    background-color: #ffe8db;
+    font-weight: 500;
+    svg {
+      display: inline-block;
+      margin-right: 5px;
+      font-size: 27px;
+      vertical-align: middle;
+    }
+    &:hover {
+      background-color: #f8efe9;
+    }
+  }
+  a:nth-child(2) {
+    color: #ffffff;
+    padding: 15px 25px;
+    border: 1px solid #ff5f03;
+    background-color: #ff5f03;
+    font-weight: 500;
+    margin-left: 80px;
+    &:hover {
+      background-color: #fc802e;
+    }
+  }
+`;
+export const CommentWrapper = styled.div`
+  width: 70%;
+  border: 1px solid #ccc;
+  grid-column-end: span 5;
+  height: 700px;
+  border-top: none;
+  background: linear-gradient(to right, #555555, #ccc);
+  -webkit-border-top-right-radius: 130px;
+  -webkit-border-bottom-right-radius: 108px;
+  -webkit-border-bottom-left-radius: 130px;
+  -moz-border-radius-topright: 130px;
+  -moz-border-radius-bottomright: 108px;
+  -moz-border-radius-bottomleft: 130px;
+  border-top-right-radius: 130px;
+  border-bottom-right-radius: 108px;
+  border-bottom-left-radius: 130px;
+  form {
+    margin: 20px 40px;
+    display: flex;
+    background-color: #ccc;
+    padding: 5px 20px;
+    border-radius: 5px;
+    align-items: center;
+    width: 75%;
+    box-shadow: 0 0 15px rgba(2, 255, 234, 0.3);
+
+    img {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      margin-right: 25px;
+      border: 1px solid #ffffff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+    textarea {
+      padding: 6px 20px;
+      width: 80%;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      &:focus {
+        outline: 2px solid #3cebeb;
+      }
+    }
+    a {
+      margin-left: 40px;
+      color: #065991;
+      font-size: 30px;
+      &:hover {
+        color: #3e94e4;
+      }
+    }
+  }
+`;
+export const ListComment = styled.div`
+  border: 1px solid #7c7c7c;
+  border-radius: 10px;
+  width: 80%;
+  height: 480px;
+  margin-left: 10%;
+  overflow-y: scroll;
+`;
+
+export const CommentTitle = styled.p`
+  color: #0a022c;
+  text-shadow: 2px 2px 4px #3cebeb;
+  font-weight: bold;
+  font-size: 25px;
+  margin: 20px 40px;
+`;
+
+export const ItemComment = styled.div`
+  margin: 20px;
+  padding: 10px 10px;
+  /* background-color: #9c9c9c; */
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  display: flex;
+  img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-right: 25px;
+    border: 1px solid #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+`;
+export const DetailComment = styled.div`
+  span {
+    color: #ffffff;
+    font-size: 15px;
+    padding-right: 10px;
+    margin-right: 10px;
+  }
+  span:nth-child(1) {
+    border-right: 1px solid #ccc;
+  }
+`;
+
+export const ContentComment = styled.p`
+  max-height: 100px;
+  width: 100%;
+  padding: 10px;
+  overflow: auto;
 `;

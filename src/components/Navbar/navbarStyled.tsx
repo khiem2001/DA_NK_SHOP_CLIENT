@@ -1,7 +1,7 @@
 import colors from '@/styles/colors';
 import styled from 'styled-components';
-import { pixel2vw } from '../../../utils/pixel2vw';
-import { pixel2fontSize } from '../../../utils/pixel2fontSize';
+import { pixel2vw } from '../../utils/pixel2vw';
+import { pixel2fontSize } from '../../utils/pixel2fontSize';
 
 export const NavigatorHolder = styled.div`
   width: 100%;

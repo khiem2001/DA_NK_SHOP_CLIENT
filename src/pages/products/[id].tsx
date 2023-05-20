@@ -10,6 +10,31 @@ import { GiSelfLove } from 'react-icons/gi';
 import { TfiComment } from 'react-icons/tfi';
 import { AiOutlineIdcard } from 'react-icons/ai';
 import { IoSend } from 'react-icons/io5';
+import {
+  BuyWrapper,
+  CommentTitle,
+  CommentWrapper,
+  ContentComment,
+  CountInStockLabel,
+  Description,
+  DetailComment,
+  DetailItem,
+  DetailLabel,
+  DetailOfUsers,
+  DetailProductContainer,
+  DetailValue,
+  Details,
+  ImageProduct,
+  Imagewrapper,
+  InfoWrapper,
+  ItemComment,
+  ListComment,
+  Price,
+  Quantity,
+  QuantityLabel,
+  Title
+} from '@/components/HomePage/Products/productsStyled';
+import { useListComment } from '@/components/HomePage/Products/services/hooks/useListComment';
 
 interface Props {
   data?: any;
@@ -64,242 +89,11 @@ export async function getStaticProps({ params }: any) {
   };
 }
 
-const DetailProductContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  padding: 5% 10%;
-  background-color: #fff;
-`;
-const Imagewrapper = styled.span`
-  grid-column-end: span 2;
-`;
-const InfoWrapper = styled.span`
-  grid-column-end: span 3;
-  padding: 0 30px;
-`;
-
-const Image = styled.img`
-  width: 85%;
-  object-fit: cover;
-  height: 500px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-`;
-
-const Title = styled.h1`
-  font-size: 2.5rem;
-  margin-top: 0.2rem;
-`;
-
-const Description = styled.p`
-  font-size: 1.4rem;
-  margin: 2rem 0;
-`;
-
-const Price = styled.p`
-  font-size: 2rem;
-  /* font-weight: bold; */
-  color: red;
-  background-color: #f1f0f0;
-  padding-left: 20px;
-  margin-bottom: 30px;
-`;
-
-const Details = styled.div``;
-
-const DetailItem = styled.p`
-  font-size: 1.3rem;
-  margin: 0.5rem 0;
-`;
-
-const DetailLabel = styled.span`
-  font-weight: bold;
-  color: #302f2f;
-  margin-right: 0.8rem;
-`;
-
-const Quantity = styled.p`
-  font-size: 1.3rem;
-  margin: 2rem 0;
-  button {
-    border: 1px solid #ccc;
-    padding: 5px 20px;
-    color: #918e8e;
-  }
-  span {
-    border: 1px solid #ccc;
-    padding: 8px 20px;
-    font-weight: bold;
-    color: #0d2f8d;
-  }
-`;
-
-const QuantityLabel = styled.label`
-  font-weight: bold;
-  color: #302f2f;
-  margin-right: 2.8rem;
-`;
-
-const CountInStockLabel = styled.label`
-  color: #615f5f;
-  margin-left: 2.8rem;
-`;
-const DetailValue = styled.span`
-  color: #494949;
-`;
-const DetailOfUsers = styled.span`
-  color: #000000;
-  margin: 60px 10px;
-  display: flex;
-  font-size: 22px;
-  a,
-  span {
-    margin-right: 65px;
-    svg {
-      display: inline-block;
-      margin-right: 8px;
-    }
-  }
-  a:hover {
-    color: #ff4b04;
-  }
-`;
-
-const BuyWrapper = styled.div`
-  margin: 4rem 0;
-  a:nth-child(1) {
-    color: #ff7011;
-    padding: 15px 25px;
-    border: 1px solid #ff5f03;
-    background-color: #ffe8db;
-    font-weight: 500;
-    svg {
-      display: inline-block;
-      margin-right: 5px;
-      font-size: 27px;
-      vertical-align: middle;
-    }
-    &:hover {
-      background-color: #f8efe9;
-    }
-  }
-  a:nth-child(2) {
-    color: #ffffff;
-    padding: 15px 25px;
-    border: 1px solid #ff5f03;
-    background-color: #ff5f03;
-    font-weight: 500;
-    margin-left: 80px;
-    &:hover {
-      background-color: #fc802e;
-    }
-  }
-`;
-const CommentWrapper = styled.div`
-  width: 70%;
-  border: 1px solid #ccc;
-  grid-column-end: span 5;
-  height: 700px;
-  border-top: none;
-  background: linear-gradient(to right, #555555, #ccc);
-  -webkit-border-top-right-radius: 130px;
-  -webkit-border-bottom-right-radius: 108px;
-  -webkit-border-bottom-left-radius: 130px;
-  -moz-border-radius-topright: 130px;
-  -moz-border-radius-bottomright: 108px;
-  -moz-border-radius-bottomleft: 130px;
-  border-top-right-radius: 130px;
-  border-bottom-right-radius: 108px;
-  border-bottom-left-radius: 130px;
-  form {
-    margin: 20px 40px;
-    display: flex;
-    background-color: #ccc;
-    padding: 5px 20px;
-    border-radius: 5px;
-    align-items: center;
-    width: 75%;
-    box-shadow: 0 0 15px rgba(2, 255, 234, 0.3);
-
-    img {
-      width: 70px;
-      height: 70px;
-      border-radius: 50%;
-      margin-right: 25px;
-      border: 1px solid #ffffff;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    }
-    textarea {
-      padding: 6px 20px;
-      width: 80%;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      &:focus {
-        outline: 2px solid #3cebeb;
-      }
-    }
-    a {
-      margin-left: 40px;
-      color: #065991;
-      font-size: 30px;
-      &:hover {
-        color: #3e94e4;
-      }
-    }
-  }
-`;
-const ListComment = styled.div`
-  border: 1px solid #7c7c7c;
-  border-radius: 10px;
-  width: 80%;
-  height: 480px;
-  margin-left: 10%;
-  overflow-y: scroll;
-`;
-
-const CommentTitle = styled.p`
-  color: #0a022c;
-  text-shadow: 2px 2px 4px #3cebeb;
-  font-weight: bold;
-  font-size: 25px;
-  margin: 20px 40px;
-`;
-
-const ItemComment = styled.div`
-  margin: 20px;
-  padding: 10px 10px;
-  background-color: #9c9c9c;
-  border-radius: 10px;
-  display: flex;
-  img {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    margin-right: 25px;
-    border: 1px solid #ffffff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  }
-`;
-const DetailComment = styled.div`
-  span {
-    color: #ffffff;
-    font-size: 15px;
-    padding-right: 10px;
-    margin-right: 10px;
-  }
-  span:nth-child(1) {
-    border-right: 1px solid #ccc;
-  }
-`;
-
-const ContentComment = styled.p`
-  max-height: 100px;
-  width: 100%;
-  padding: 10px;
-  overflow: auto;
-`;
-
 const DetailProduct = ({ data }: Props) => {
   const product = data.getProduct.product;
+
+  const { listComment, isLoading } = useListComment({ id: product._id });
+
   const [quantity, setQuantity] = useState(1);
   const [showComment, setShowComment] = useState(true);
   const handleIncrement = () => {
@@ -314,7 +108,7 @@ const DetailProduct = ({ data }: Props) => {
   return (
     <DetailProductContainer>
       <Imagewrapper>
-        <Image src={'http://localhost:7007/' + product.image.url} alt={product.name} />
+        <ImageProduct src={'http://localhost:7007/' + product.image.url} alt={product.name} />
         <DetailOfUsers>
           <Link href="">
             <GiSelfLove />
@@ -401,7 +195,7 @@ const DetailProduct = ({ data }: Props) => {
         <CommentWrapper>
           <CommentTitle>Bình Luận Của Người Dùng</CommentTitle>
           <form>
-            <Image src={'http://localhost:7007/' + product.image.url} alt={product.name} />
+            <img src={'http://localhost:7007/' + product.image.url} alt={product.name} />
             <textarea
               id="comment"
               name="comment"
@@ -413,16 +207,18 @@ const DetailProduct = ({ data }: Props) => {
             </a>
           </form>
           <ListComment>
-            <ItemComment>
-              <Image src={'http://localhost:7007/' + product.image.url} alt={product.name} />
-              <DetailComment>
-                <div>
-                  <span>Nguyễn Văn Khiêm</span>
-                  <span>22/07/2001</span>
-                </div>
-                <ContentComment>Nulla facilisi. Suspendisse vitae velit metus. lerisque massa,</ContentComment>
-              </DetailComment>
-            </ItemComment>
+            {listComment?.data?.map(obj => (
+              <ItemComment>
+                <img src={'http://localhost:7007/' + obj.user?.avatarId?.url} alt="Ảnh người dùng" />
+                <DetailComment>
+                  <div>
+                    <span>{obj.user?.fullName}</span>
+                    <span>{new Date(obj.createdAt || '').toLocaleString('en-US', { timeZone: 'UTC' })}</span>
+                  </div>
+                  <ContentComment>{obj.message}</ContentComment>
+                </DetailComment>
+              </ItemComment>
+            ))}
           </ListComment>
         </CommentWrapper>
       )}

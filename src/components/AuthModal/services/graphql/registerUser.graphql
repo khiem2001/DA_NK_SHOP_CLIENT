@@ -1,0 +1,8 @@
+mutation registerUser($password: String!, $phoneNumber: String!, $fullName: String!) {
+  registerUser(input: { password: $password, phoneNumber: $phoneNumber, fullName: $fullName }) {
+    sessionId
+    otpExpiredTime
+    phoneNumber
+    fullName
+  }
+}

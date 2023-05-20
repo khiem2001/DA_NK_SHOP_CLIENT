@@ -1,0 +1,5 @@
+mutation verifyPhone($sessionId: String!, $otp: String!) {
+    verifyPhone(input: { sessionId: $sessionId, otp: $otp }) {
+        verified
+    }
+}

@@ -12,7 +12,7 @@ export default function Navbar() {
     <NavigatorHolder>
       <Link href="/">
         <Logo>
-          <Image src={logoImage} alt="MetaHall" />
+          <Image src={logoImage} alt="NKShop" />
         </Logo>
       </Link>
       <MenuWrapper>

@@ -1,0 +1,7 @@
+mutation sendPhoneNumberToGetOTP($input: SendOtpRequestInput!) {
+  sendOtp(input: $input) {
+    phoneNumber
+    sessionId
+    otpExpiredTime
+  }
+}

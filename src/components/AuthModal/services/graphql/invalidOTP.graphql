@@ -1,0 +1,5 @@
+mutation inValidOtp($sessionId: String!, $otp: String!) {
+  inValidOtp(input: { sessionId: $sessionId, otp: $otp }) {
+    confirmed
+  }
+}

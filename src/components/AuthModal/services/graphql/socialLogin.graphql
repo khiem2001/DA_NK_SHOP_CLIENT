@@ -1,0 +1,17 @@
+mutation loginSocial($provider: Provider!, $accessToken: String!) {
+  loginSocial(input: { provider: $provider, accessToken: $accessToken }) {
+    token
+    refreshToken
+    expiresAt
+    refreshTokenExpiresAt
+    payload {
+      _id
+      fullName
+      phoneNumber
+      verified
+      birthday
+      address
+      avatarId
+    }
+  }
+}

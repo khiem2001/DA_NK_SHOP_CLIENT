@@ -1,6 +1,6 @@
 import type { GraphQLClient } from 'graphql-request';
 import type { RequestInit } from 'graphql-request/dist/types.dom';
-import { useQuery, type UseQueryOptions } from '@tanstack/react-query';
+import { useMutation, useQuery, type UseMutationOptions, type UseQueryOptions } from '@tanstack/react-query';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -34,12 +34,26 @@ export type BooleanPayload = {
   success?: Maybe<Scalars['Boolean']>;
 };
 
+export type ChangePasswordInputDto = {
+  confirmPassword: Scalars['String'];
+  otp: Scalars['String'];
+  password: Scalars['String'];
+  sessionId: Scalars['String'];
+};
+
+export type ChangePasswordResponse = {
+  __typename?: 'ChangePasswordResponse';
+  updated: Scalars['Boolean'];
+};
+
 export type CommentResponse = {
   __typename?: 'CommentResponse';
   _id: Scalars['String'];
+  createdAt?: Maybe<Scalars['Float']>;
   message: Scalars['String'];
   parentId?: Maybe<Scalars['String']>;
   productId?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['Float']>;
   user?: Maybe<UserDtoType>;
 };
 
@@ -158,6 +172,15 @@ export type GetProductResponse = {
   product?: Maybe<ProductPayload>;
 };
 
+export type ListCommentInput = {
+  id: Scalars['String'];
+};
+
+export type ListCommentResponse = {
+  __typename?: 'ListCommentResponse';
+  data?: Maybe<Array<CommentResponse>>;
+};
+
 export type LoginResponse = {
   __typename?: 'LoginResponse';
   expiresAt: Scalars['String'];
@@ -197,21 +220,28 @@ export enum MediaStatus {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  changePassword: ChangePasswordResponse;
   confirmOtp: ConfirmOtpResponse;
   createAdmin: BooleanPayload;
+  createComment: CommentResponse;
   createConversation: CreateConversationType;
   createPayment: CreatePaymentResponse;
   createProduct: BooleanPayload;
   createType: BooleanPayload;
   deleteProduct: BooleanPayload;
+  inValidOtp: ConfirmOtpResponse;
   loginSocial: LoginResponse;
   loginUser: LoginResponse;
   registerUser: RegisterUserResponse;
   sendEmailVerify: BooleanPayload;
-  sendMessage: CommentResponse;
   sendOtp: SendOtpResponse;
   updateProduct: BooleanPayload;
   verifyPhone: VerifyPhoneResponse;
+};
+
+
+export type MutationChangePasswordArgs = {
+  input: ChangePasswordInputDto;
 };
 
 
@@ -222,6 +252,11 @@ export type MutationConfirmOtpArgs = {
 
 export type MutationCreateAdminArgs = {
   input: AdminInputDto;
+};
+
+
+export type MutationCreateCommentArgs = {
+  input: CreateCommentInput;
 };
 
 
@@ -250,6 +285,11 @@ export type MutationDeleteProductArgs = {
 };
 
 
+export type MutationInValidOtpArgs = {
+  input: ConfirmOtpRequestInput;
+};
+
+
 export type MutationLoginSocialArgs = {
   input: LoginSocialInputDto;
 };
@@ -267,11 +307,6 @@ export type MutationRegisterUserArgs = {
 
 export type MutationSendEmailVerifyArgs = {
   input: SendPinCodeInput;
-};
-
-
-export type MutationSendMessageArgs = {
-  input: CreateCommentInput;
 };
 
 
@@ -389,6 +424,7 @@ export type Query = {
   __typename?: 'Query';
   getListProduct: GetListProductResponse;
   getProduct: GetProductResponse;
+  listComment: ListCommentResponse;
   listType: GetListTypeResponse;
   sayHello: Scalars['String'];
 };
@@ -401,6 +437,11 @@ export type QueryGetListProductArgs = {
 
 export type QueryGetProductArgs = {
   input: ReadProductInputDto;
+};
+
+
+export type QueryListCommentArgs = {
+  input: ListCommentInput;
 };
 
 export type ReadProductInputDto = {
@@ -457,7 +498,7 @@ export type UserDtoType = {
   _id?: Maybe<Scalars['ID']>;
   active?: Maybe<Scalars['Boolean']>;
   address?: Maybe<Scalars['String']>;
-  avatarId?: Maybe<Scalars['String']>;
+  avatarId?: Maybe<Media>;
   birthday?: Maybe<Scalars['Float']>;
   createdAt?: Maybe<Scalars['Float']>;
   createdBy?: Maybe<Scalars['String']>;
@@ -505,6 +546,79 @@ export type VerifyPhoneResponse = {
   verified: Scalars['Boolean'];
 };
 
+export type ComfirmWhenResendMutationVariables = Exact<{
+  sessionId: Scalars['String'];
+  otp: Scalars['String'];
+}>;
+
+
+export type ComfirmWhenResendMutation = { __typename?: 'Mutation', confirmOtp: { __typename?: 'ConfirmOtpResponse', confirmed?: boolean | null } };
+
+export type ChangePasswordOutSideMutationVariables = Exact<{
+  password: Scalars['String'];
+  sessionId: Scalars['String'];
+  confirmPassword: Scalars['String'];
+  otp: Scalars['String'];
+}>;
+
+
+export type ChangePasswordOutSideMutation = { __typename?: 'Mutation', changePassword: { __typename?: 'ChangePasswordResponse', updated: boolean } };
+
+export type InValidOtpMutationVariables = Exact<{
+  sessionId: Scalars['String'];
+  otp: Scalars['String'];
+}>;
+
+
+export type InValidOtpMutation = { __typename?: 'Mutation', inValidOtp: { __typename?: 'ConfirmOtpResponse', confirmed?: boolean | null } };
+
+export type UserLoginByPhoneMutationVariables = Exact<{
+  phoneNumber: Scalars['String'];
+  password: Scalars['String'];
+}>;
+
+
+export type UserLoginByPhoneMutation = { __typename?: 'Mutation', loginUser: { __typename?: 'LoginResponse', token: string, refreshToken: string, expiresAt: string, refreshTokenExpiresAt: string, payload?: { __typename?: 'UserPayload', _id: string, fullName?: string | null, phoneNumber?: string | null, verified?: boolean | null, birthday?: string | null, address?: string | null, avatarId?: string | null, verifyPhone?: boolean | null, verifyEmail?: boolean | null } | null } };
+
+export type RegisterUserMutationVariables = Exact<{
+  password: Scalars['String'];
+  phoneNumber: Scalars['String'];
+  fullName: Scalars['String'];
+}>;
+
+
+export type RegisterUserMutation = { __typename?: 'Mutation', registerUser: { __typename?: 'RegisterUserResponse', sessionId: string, otpExpiredTime: number, phoneNumber?: string | null, fullName: string } };
+
+export type SendPhoneNumberToGetOtpMutationVariables = Exact<{
+  input: SendOtpRequestInput;
+}>;
+
+
+export type SendPhoneNumberToGetOtpMutation = { __typename?: 'Mutation', sendOtp: { __typename?: 'SendOtpResponse', phoneNumber?: string | null, sessionId?: string | null, otpExpiredTime?: number | null } };
+
+export type LoginSocialMutationVariables = Exact<{
+  provider: Provider;
+  accessToken: Scalars['String'];
+}>;
+
+
+export type LoginSocialMutation = { __typename?: 'Mutation', loginSocial: { __typename?: 'LoginResponse', token: string, refreshToken: string, expiresAt: string, refreshTokenExpiresAt: string, payload?: { __typename?: 'UserPayload', _id: string, fullName?: string | null, phoneNumber?: string | null, verified?: boolean | null, birthday?: string | null, address?: string | null, avatarId?: string | null } | null } };
+
+export type VerifyPhoneMutationVariables = Exact<{
+  sessionId: Scalars['String'];
+  otp: Scalars['String'];
+}>;
+
+
+export type VerifyPhoneMutation = { __typename?: 'Mutation', verifyPhone: { __typename?: 'VerifyPhoneResponse', verified: boolean } };
+
+export type GetListCommentQueryVariables = Exact<{
+  input: ListCommentInput;
+}>;
+
+
+export type GetListCommentQuery = { __typename?: 'Query', listComment: { __typename?: 'ListCommentResponse', data?: Array<{ __typename?: 'CommentResponse', _id: string, message: string, createdAt?: number | null, user?: { __typename?: 'UserDtoType', fullName?: string | null, avatarId?: { __typename?: 'Media', url?: string | null } | null } | null }> | null } };
+
 export type GetListProductQueryVariables = Exact<{
   input: GetListProductInput;
 }>;
@@ -525,6 +639,232 @@ export type ListTypeQueryVariables = Exact<{ [key: string]: never; }>;
 export type ListTypeQuery = { __typename?: 'Query', listType: { __typename?: 'GetListTypeResponse', data?: Array<{ __typename?: 'ProductType', _id?: string | null, name?: string | null }> | null } };
 
 
+export const ComfirmWhenResendDocument = `
+    mutation comfirmWhenResend($sessionId: String!, $otp: String!) {
+  confirmOtp(input: {sessionId: $sessionId, otp: $otp}) {
+    confirmed
+  }
+}
+    `;
+export const useComfirmWhenResendMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<ComfirmWhenResendMutation, TError, ComfirmWhenResendMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<ComfirmWhenResendMutation, TError, ComfirmWhenResendMutationVariables, TContext>(
+      ['comfirmWhenResend'],
+      (variables?: ComfirmWhenResendMutationVariables) => fetcher<ComfirmWhenResendMutation, ComfirmWhenResendMutationVariables>(client, ComfirmWhenResendDocument, variables, headers)(),
+      options
+    );
+export const ChangePasswordOutSideDocument = `
+    mutation changePasswordOutSide($password: String!, $sessionId: String!, $confirmPassword: String!, $otp: String!) {
+  changePassword(
+    input: {password: $password, sessionId: $sessionId, confirmPassword: $confirmPassword, otp: $otp}
+  ) {
+    updated
+  }
+}
+    `;
+export const useChangePasswordOutSideMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<ChangePasswordOutSideMutation, TError, ChangePasswordOutSideMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<ChangePasswordOutSideMutation, TError, ChangePasswordOutSideMutationVariables, TContext>(
+      ['changePasswordOutSide'],
+      (variables?: ChangePasswordOutSideMutationVariables) => fetcher<ChangePasswordOutSideMutation, ChangePasswordOutSideMutationVariables>(client, ChangePasswordOutSideDocument, variables, headers)(),
+      options
+    );
+export const InValidOtpDocument = `
+    mutation inValidOtp($sessionId: String!, $otp: String!) {
+  inValidOtp(input: {sessionId: $sessionId, otp: $otp}) {
+    confirmed
+  }
+}
+    `;
+export const useInValidOtpMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<InValidOtpMutation, TError, InValidOtpMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<InValidOtpMutation, TError, InValidOtpMutationVariables, TContext>(
+      ['inValidOtp'],
+      (variables?: InValidOtpMutationVariables) => fetcher<InValidOtpMutation, InValidOtpMutationVariables>(client, InValidOtpDocument, variables, headers)(),
+      options
+    );
+export const UserLoginByPhoneDocument = `
+    mutation userLoginByPhone($phoneNumber: String!, $password: String!) {
+  loginUser(input: {phoneNumber: $phoneNumber, password: $password}) {
+    token
+    refreshToken
+    expiresAt
+    refreshTokenExpiresAt
+    payload {
+      _id
+      fullName
+      phoneNumber
+      verified
+      birthday
+      address
+      avatarId
+      verifyPhone
+      verifyEmail
+    }
+  }
+}
+    `;
+export const useUserLoginByPhoneMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UserLoginByPhoneMutation, TError, UserLoginByPhoneMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UserLoginByPhoneMutation, TError, UserLoginByPhoneMutationVariables, TContext>(
+      ['userLoginByPhone'],
+      (variables?: UserLoginByPhoneMutationVariables) => fetcher<UserLoginByPhoneMutation, UserLoginByPhoneMutationVariables>(client, UserLoginByPhoneDocument, variables, headers)(),
+      options
+    );
+export const RegisterUserDocument = `
+    mutation registerUser($password: String!, $phoneNumber: String!, $fullName: String!) {
+  registerUser(
+    input: {password: $password, phoneNumber: $phoneNumber, fullName: $fullName}
+  ) {
+    sessionId
+    otpExpiredTime
+    phoneNumber
+    fullName
+  }
+}
+    `;
+export const useRegisterUserMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<RegisterUserMutation, TError, RegisterUserMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<RegisterUserMutation, TError, RegisterUserMutationVariables, TContext>(
+      ['registerUser'],
+      (variables?: RegisterUserMutationVariables) => fetcher<RegisterUserMutation, RegisterUserMutationVariables>(client, RegisterUserDocument, variables, headers)(),
+      options
+    );
+export const SendPhoneNumberToGetOtpDocument = `
+    mutation sendPhoneNumberToGetOTP($input: SendOtpRequestInput!) {
+  sendOtp(input: $input) {
+    phoneNumber
+    sessionId
+    otpExpiredTime
+  }
+}
+    `;
+export const useSendPhoneNumberToGetOtpMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<SendPhoneNumberToGetOtpMutation, TError, SendPhoneNumberToGetOtpMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<SendPhoneNumberToGetOtpMutation, TError, SendPhoneNumberToGetOtpMutationVariables, TContext>(
+      ['sendPhoneNumberToGetOTP'],
+      (variables?: SendPhoneNumberToGetOtpMutationVariables) => fetcher<SendPhoneNumberToGetOtpMutation, SendPhoneNumberToGetOtpMutationVariables>(client, SendPhoneNumberToGetOtpDocument, variables, headers)(),
+      options
+    );
+export const LoginSocialDocument = `
+    mutation loginSocial($provider: Provider!, $accessToken: String!) {
+  loginSocial(input: {provider: $provider, accessToken: $accessToken}) {
+    token
+    refreshToken
+    expiresAt
+    refreshTokenExpiresAt
+    payload {
+      _id
+      fullName
+      phoneNumber
+      verified
+      birthday
+      address
+      avatarId
+    }
+  }
+}
+    `;
+export const useLoginSocialMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<LoginSocialMutation, TError, LoginSocialMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<LoginSocialMutation, TError, LoginSocialMutationVariables, TContext>(
+      ['loginSocial'],
+      (variables?: LoginSocialMutationVariables) => fetcher<LoginSocialMutation, LoginSocialMutationVariables>(client, LoginSocialDocument, variables, headers)(),
+      options
+    );
+export const VerifyPhoneDocument = `
+    mutation verifyPhone($sessionId: String!, $otp: String!) {
+  verifyPhone(input: {sessionId: $sessionId, otp: $otp}) {
+    verified
+  }
+}
+    `;
+export const useVerifyPhoneMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<VerifyPhoneMutation, TError, VerifyPhoneMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<VerifyPhoneMutation, TError, VerifyPhoneMutationVariables, TContext>(
+      ['verifyPhone'],
+      (variables?: VerifyPhoneMutationVariables) => fetcher<VerifyPhoneMutation, VerifyPhoneMutationVariables>(client, VerifyPhoneDocument, variables, headers)(),
+      options
+    );
+export const GetListCommentDocument = `
+    query getListComment($input: ListCommentInput!) {
+  listComment(input: $input) {
+    data {
+      _id
+      user {
+        avatarId {
+          url
+        }
+        fullName
+      }
+      message
+      createdAt
+    }
+  }
+}
+    `;
+export const useGetListCommentQuery = <
+      TData = GetListCommentQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: GetListCommentQueryVariables,
+      options?: UseQueryOptions<GetListCommentQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<GetListCommentQuery, TError, TData>(
+      ['getListComment', variables],
+      fetcher<GetListCommentQuery, GetListCommentQueryVariables>(client, GetListCommentDocument, variables, headers),
+      options
+    );
 export const GetListProductDocument = `
     query getListProduct($input: GetListProductInput!) {
   getListProduct(input: $input) {

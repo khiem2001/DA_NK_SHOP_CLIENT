@@ -1,0 +1,19 @@
+mutation userLoginByPhone($phoneNumber: String!, $password: String!) {
+  loginUser(input: { phoneNumber: $phoneNumber, password: $password }) {
+    token
+    refreshToken
+    expiresAt
+    refreshTokenExpiresAt
+    payload {
+      _id
+      fullName
+      phoneNumber
+      verified
+      birthday
+      address
+      avatarId
+      verifyPhone
+      verifyEmail
+    }
+  }
+}
