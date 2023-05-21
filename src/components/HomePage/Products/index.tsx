@@ -4,7 +4,7 @@ import ItemProduct from '@/components/HomePage/Products/components/ItemProduct';
 
 import { useListProduct } from './services/hooks/useListProduct';
 import { ListProduct, ProductNotification, ProductsWrapper } from './productsStyled';
-import FilterProduct from '@/components/HomePage/Products/components/FilterProduct';
+// import FilterProduct from '@/components/HomePage/Products/components/FilterProduct';
 
 const Products = () => {
   const [limit, setLimit] = useState(12);
@@ -67,7 +67,7 @@ const Products = () => {
 
   return (
     <ProductsWrapper>
-      <FilterProduct onFilterChange={handleFilterChange} />
+      {/* <FilterProduct onFilterChange={handleFilterChange} /> */}
 
       <>
         {listProduct?.products ? (
