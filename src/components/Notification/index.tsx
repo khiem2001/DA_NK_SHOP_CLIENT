@@ -18,7 +18,8 @@ export const ToastDefaultConfig = (): ToastOptions => {
       color: '#000000',
       borderRadius: '20px',
       margin: 10,
-      fontSize: pixel2fontSize(11),
+      fontSize: pixel2fontSize(15),
+      fontWeight: 500,
       display: 'flex',
       alignItems: 'center'
     }

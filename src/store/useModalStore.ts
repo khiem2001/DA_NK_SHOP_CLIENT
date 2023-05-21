@@ -6,7 +6,7 @@ export enum StoreModal {
 }
 
 const useModalStore = create((set, get) => ({
-  name: StoreModal.LOGIN,
+  name: null,
   config: {},
   openModal: (name: StoreModal, config: any) => {
     set({ name, config });

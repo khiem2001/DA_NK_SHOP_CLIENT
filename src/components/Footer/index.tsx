@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import logoImage from 'public/images/logo2.jpg';
 import Image from 'next/image';
 import AuthModal from '../AuthModal';
+import LogoutModal from '../LogoutModal/logoutModal';
 
 const FooterContainer = styled.footer`
   background-color: #000000;
@@ -23,6 +24,7 @@ const FooterText = styled.p`
 const Footer = () => {
   return (
     <>
+      <LogoutModal />
       <AuthModal />
       <FooterContainer>
         <FooterText>175 Tây Sơn, Đống Đa, Hà Nội</FooterText>
@@ -34,5 +36,4 @@ const Footer = () => {
     </>
   );
 };
-
 export default Footer;

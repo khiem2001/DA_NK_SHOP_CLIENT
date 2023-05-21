@@ -174,3 +174,55 @@ export const Item = styled.div<{ isSelected: boolean }>`
     }
   }
 `;
+export const SignInButton = styled.a`
+  .signInName {
+    font-size: 14px;
+    border: 1px solid #918f8f;
+    padding: 6px 15px;
+    border-radius: 100px;
+    &:hover {
+      box-shadow: 0 0 1rem rgba(255, 255, 255, 0.5);
+    }
+  }
+`;
+export const ProfileDropdown = styled.div`
+  @media only screen and (max-width: 600px) {
+    top: ${pixel2vw(60)};
+    opacity: 1;
+    right: 0;
+    a {
+      font-size: ${pixel2fontSize(12)};
+    }
+  }
+  position: absolute;
+  left: 0;
+  margin-top: ${pixel2vw(8)};
+  display: flex;
+  transition: none;
+  background: ${colors.dark_color};
+  opacity: 0.8;
+  z-index: 99;
+  flex-direction: column;
+  min-width: ${pixel2vw(110)};
+  padding: 15px;
+  a {
+    margin-bottom: 5px;
+    padding: 5px 0;
+    border-bottom: 1px solid white;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    color: white;
+    font-size: 14px;
+
+    :hover {
+      span {
+        color: ${colors.primary_color};
+      }
+    }
+  }
+
+  div:last-child hr {
+    /* display: none; */
+  }
+`;

@@ -12,7 +12,7 @@ export const Modal = styled.div`
 `;
 export const Container = styled.div`
   width: 58%;
-  height: 600px;
+  height: 620px;
   margin: auto auto;
   background-color: #ccc;
   display: flex;

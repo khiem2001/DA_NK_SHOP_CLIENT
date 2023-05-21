@@ -522,7 +522,7 @@ export type UserPayload = {
   __typename?: 'UserPayload';
   _id: Scalars['String'];
   address?: Maybe<Scalars['String']>;
-  avatarId?: Maybe<Scalars['String']>;
+  avatarId?: Maybe<Media>;
   birthday?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['Float']>;
   email?: Maybe<Scalars['String']>;
@@ -578,7 +578,7 @@ export type UserLoginByPhoneMutationVariables = Exact<{
 }>;
 
 
-export type UserLoginByPhoneMutation = { __typename?: 'Mutation', loginUser: { __typename?: 'LoginResponse', token: string, refreshToken: string, expiresAt: string, refreshTokenExpiresAt: string, payload?: { __typename?: 'UserPayload', _id: string, fullName?: string | null, phoneNumber?: string | null, verified?: boolean | null, birthday?: string | null, address?: string | null, avatarId?: string | null, verifyPhone?: boolean | null, verifyEmail?: boolean | null } | null } };
+export type UserLoginByPhoneMutation = { __typename?: 'Mutation', loginUser: { __typename?: 'LoginResponse', token: string, refreshToken: string, expiresAt: string, refreshTokenExpiresAt: string, payload?: { __typename?: 'UserPayload', _id: string, fullName?: string | null, phoneNumber?: string | null, verified?: boolean | null, birthday?: string | null, address?: string | null, verifyPhone?: boolean | null, verifyEmail?: boolean | null, avatarId?: { __typename?: 'Media', url?: string | null } | null } | null } };
 
 export type RegisterUserMutationVariables = Exact<{
   password: Scalars['String'];
@@ -602,7 +602,7 @@ export type LoginSocialMutationVariables = Exact<{
 }>;
 
 
-export type LoginSocialMutation = { __typename?: 'Mutation', loginSocial: { __typename?: 'LoginResponse', token: string, refreshToken: string, expiresAt: string, refreshTokenExpiresAt: string, payload?: { __typename?: 'UserPayload', _id: string, fullName?: string | null, phoneNumber?: string | null, verified?: boolean | null, birthday?: string | null, address?: string | null, avatarId?: string | null } | null } };
+export type LoginSocialMutation = { __typename?: 'Mutation', loginSocial: { __typename?: 'LoginResponse', token: string, refreshToken: string, expiresAt: string, refreshTokenExpiresAt: string, payload?: { __typename?: 'UserPayload', _id: string, fullName?: string | null, phoneNumber?: string | null, verified?: boolean | null, birthday?: string | null, address?: string | null, avatarId?: { __typename?: 'Media', url?: string | null } | null } | null } };
 
 export type VerifyPhoneMutationVariables = Exact<{
   sessionId: Scalars['String'];
@@ -715,7 +715,9 @@ export const UserLoginByPhoneDocument = `
       verified
       birthday
       address
-      avatarId
+      avatarId {
+        url
+      }
       verifyPhone
       verifyEmail
     }
@@ -796,7 +798,9 @@ export const LoginSocialDocument = `
       verified
       birthday
       address
-      avatarId
+      avatarId {
+        url
+      }
     }
   }
 }

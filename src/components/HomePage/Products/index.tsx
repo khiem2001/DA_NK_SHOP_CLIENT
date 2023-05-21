@@ -5,6 +5,7 @@ import ItemProduct from '@/components/HomePage/Products/components/ItemProduct';
 import { useListProduct } from './services/hooks/useListProduct';
 import { ListProduct, ProductNotification, ProductsWrapper } from './productsStyled';
 import FilterProducts from '@/components/HomePage/Products/components/FilterProducts';
+import { LoadingCenter } from '@/components/Loading';
 
 const Products = () => {
   const [limit, setLimit] = useState(12);
@@ -70,7 +71,9 @@ const Products = () => {
       <FilterProducts onFilterChange={handleFilterChange} />
 
       <>
-        {listProduct?.products ? (
+        {isLoading ? (
+          <LoadingCenter />
+        ) : listProduct?.products ? (
           <ListProduct>
             {listProduct?.products?.map(obj => {
               return (

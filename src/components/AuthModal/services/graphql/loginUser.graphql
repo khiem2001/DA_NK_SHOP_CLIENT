@@ -11,7 +11,9 @@ mutation userLoginByPhone($phoneNumber: String!, $password: String!) {
       verified
       birthday
       address
-      avatarId
+      avatarId {
+        url
+      }
       verifyPhone
       verifyEmail
     }

@@ -35,6 +35,9 @@ import {
 import { useListComment } from '@/components/HomePage/Products/services/hooks/useListComment';
 import { formatCurrency } from '@/utils/format-currency';
 import Image from 'next/image';
+import { useStore } from 'zustand';
+import useUserStore, { UserStore } from '@/store/useUserStore';
+import Loading from '@/components/Loading';
 
 interface Props {
   data?: any;
@@ -90,6 +93,13 @@ export async function getStaticProps({ params }: any) {
 }
 
 const DetailProduct = ({ data }: Props) => {
+  const { user } = useUserStore(store => store) as UserStore;
+  let imageUser;
+  if (user?.avatarId?.url) {
+    imageUser = 'http://localhost:7007/' + user.avatarId.url;
+  } else {
+    imageUser = '/images/account/default-avatar-image.jpg';
+  }
   const product = data.getProduct.product;
 
   const { listComment, isLoading } = useListComment({ id: product._id });
@@ -195,7 +205,7 @@ const DetailProduct = ({ data }: Props) => {
         <CommentWrapper>
           <CommentTitle>Bình Luận Của Người Dùng</CommentTitle>
           <form>
-            <Image src={'http://localhost:7007/' + product.image.url} alt={product.name} width={500} height={500} />
+            <Image src={imageUser} alt={product.name} width={500} height={500} />
             <textarea
               id="comment"
               name="comment"
@@ -207,23 +217,31 @@ const DetailProduct = ({ data }: Props) => {
             </a>
           </form>
           <ListComment>
-            {listComment?.data?.map((obj, index) => (
-              <ItemComment key={index}>
-                <Image
-                  src={'http://localhost:7007/' + obj.user?.avatarId?.url}
-                  alt="Ảnh người dùng"
-                  width={500}
-                  height={500}
-                />
-                <DetailComment>
-                  <div>
-                    <span>{obj.user?.fullName}</span>
-                    <span>{new Date(obj.createdAt || '').toLocaleString('en-US', { timeZone: 'UTC' })}</span>
-                  </div>
-                  <ContentComment>{obj.message}</ContentComment>
-                </DetailComment>
-              </ItemComment>
-            ))}
+            {isLoading ? (
+              <Loading />
+            ) : listComment?.data ? (
+              <div>
+                {listComment?.data?.map((obj, index) => (
+                  <ItemComment key={index}>
+                    <Image
+                      src={'http://localhost:7007/' + obj.user?.avatarId?.url}
+                      alt="Ảnh người dùng"
+                      width={500}
+                      height={500}
+                    />
+                    <DetailComment>
+                      <div>
+                        <span>{obj.user?.fullName}</span>
+                        <span>{new Date(obj.createdAt || '').toLocaleString('en-US', { timeZone: 'UTC' })}</span>
+                      </div>
+                      <ContentComment>{obj.message}</ContentComment>
+                    </DetailComment>
+                  </ItemComment>
+                ))}
+              </div>
+            ) : (
+              <div className="flex justify-center mt-24 text-2xl"> Chưa có bình luận nào về sản phẩm !</div>
+            )}
           </ListComment>
         </CommentWrapper>
       )}
