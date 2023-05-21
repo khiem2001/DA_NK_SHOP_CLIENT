@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 import { PaginationLimit, PaginationLimitSelect, PaginationLimitText, PaginationWrapper } from './paginationStyled';
 import ReactPaginate from 'react-paginate';
+import Notification from '../Notification';
 interface Props {
   limit: number;
   currentPage: number;
@@ -21,9 +22,10 @@ const Pagination = ({ limit, currentPage, totalPage, onPageChange }: Props) => {
   };
 
   const handlePageClick = (event: any) => {
-    if (event.selected !== 0 && event.selected !== totalPage - 1) {
-      onPageChange(event.selected + 1);
+    if (event.selected === 0 || event.selected === totalPage - 1) {
+      Notification.Info('Trang không tồn tại');
     }
+    onPageChange(event.selected + 1);
   };
 
   const renderOptions = () => {
