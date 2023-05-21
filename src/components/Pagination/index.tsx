@@ -1,4 +1,6 @@
+import React from 'react';
 import { useState } from 'react';
+
 import { PaginationLimit, PaginationLimitSelect, PaginationLimitText, PaginationWrapper } from './paginationStyled';
 import ReactPaginate from 'react-paginate';
 interface Props {
@@ -19,9 +21,9 @@ const Pagination = ({ limit, currentPage, totalPage, onPageChange }: Props) => {
   };
 
   const handlePageClick = (event: any) => {
-    if (event.selected === 0 || event.selected === totalPage - 1) {
+    if (event.selected !== 0 && event.selected !== totalPage - 1) {
+      onPageChange(event.selected + 1);
     }
-    onPageChange(event.selected + 1);
   };
 
   const renderOptions = () => {

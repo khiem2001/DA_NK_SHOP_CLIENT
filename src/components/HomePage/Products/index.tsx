@@ -37,21 +37,21 @@ const Products = () => {
     if (type_eq !== '') {
       filter.type_eq = type_eq;
     } else {
-      if (filter.hasOwnProperty('type_eq')) {
+      if (Object.prototype.hasOwnProperty.call(filter, 'type_eq')) {
         delete filter.type_eq;
       }
     }
     if (price_gte !== 0) {
       filter.price_gte = price_gte;
     } else {
-      if (filter.hasOwnProperty('price_gte')) {
+      if (Object.prototype.hasOwnProperty.call(filter, 'price_gte')) {
         delete filter.price_gte;
       }
     }
     if (price_lte !== 0) {
       filter.price_lte = price_lte;
     } else {
-      if (filter.hasOwnProperty('price_lte')) {
+      if (Object.prototype.hasOwnProperty.call(filter, 'price_lte')) {
         delete filter.price_lte;
       }
     }
