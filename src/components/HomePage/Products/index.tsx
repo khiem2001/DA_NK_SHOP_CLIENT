@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Pagination from '@/components/Pagination';
+import Product from './components/Product';
+
 import { useListProduct } from './services/hooks/useListProduct';
 import { ListProduct, ProductNotification, ProductsWrapper } from './productsStyled';
 import FilterProduct from './components/FilterProduct';
-import Product from './components/Product';
 
 const Products = () => {
   const [limit, setLimit] = useState(12);
