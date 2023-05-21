@@ -9,7 +9,7 @@ interface IProps {
   onFilterChange: (priceGte?: number, priceLte?: number, typeEq?: string) => void;
 }
 
-function FilterProduct({ onFilterChange }: IProps) {
+const FilterProducts = ({ onFilterChange }: IProps) => {
   const { listType, isLoading } = useListType();
   const [showFormType, setShowFormType] = useState(false);
   const [showFormPrice, setShowFormPrice] = useState(false);
@@ -119,6 +119,6 @@ function FilterProduct({ onFilterChange }: IProps) {
       </FilterDetail>
     </FilterWrapper>
   );
-}
+};
 
-export default FilterProduct;
+export default FilterProducts;
