@@ -115,7 +115,8 @@ export const InSideFromWrapper = styled.div`
   /* overflow-y: scroll; */
   background: white;
   display: flex;
-  width: 100%;
+  width: 70%;
+  margin: auto;
   flex-direction: column;
   align-items: center;
   justify-content: center;

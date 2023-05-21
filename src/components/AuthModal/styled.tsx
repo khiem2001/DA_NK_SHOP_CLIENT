@@ -50,7 +50,7 @@ export const Content = styled.div<{ active: boolean }>`
 
 export const FormContainer = styled.div`
   background-color: #e9e9e9;
-  width: 70%;
+  width: 100%;
 `;
 export const IconExit = styled.a`
   left: 20px;

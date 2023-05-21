@@ -5,8 +5,10 @@ import DefaultButton from '@/components/Button/DefaultButton';
 import colors from '@/styles/colors';
 
 export const LoginFormWrapper = styled.div`
-  margin: 70px 30px;
   min-width: 330px;
+  max-width: 600px;
+  margin: 30px auto;
+  align-items: center;
   padding: 50px;
   background-color: #fff;
   .title {

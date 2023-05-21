@@ -1,8 +1,6 @@
 import { GetListProductDocument, GetProductDocument } from '@/graphql/generated';
 import { graphqlClientRequest } from '@/graphql/services/graphql-client';
-import { formatCurrency } from '@/utils/format-currency';
 import React from 'react';
-import styled from 'styled-components';
 import { useState } from 'react';
 import Link from 'next/link';
 import { BsCartPlus } from 'react-icons/bs';
@@ -35,6 +33,8 @@ import {
   Title
 } from '@/components/HomePage/Products/productsStyled';
 import { useListComment } from '@/components/HomePage/Products/services/hooks/useListComment';
+import { formatCurrency } from '@/utils/format-currency';
+import Image from 'next/image';
 
 interface Props {
   data?: any;
@@ -195,7 +195,7 @@ const DetailProduct = ({ data }: Props) => {
         <CommentWrapper>
           <CommentTitle>Bình Luận Của Người Dùng</CommentTitle>
           <form>
-            <img src={'http://localhost:7007/' + product.image.url} alt={product.name} />
+            <Image src={'http://localhost:7007/' + product.image.url} alt={product.name} width={500} height={500} />
             <textarea
               id="comment"
               name="comment"
@@ -207,9 +207,14 @@ const DetailProduct = ({ data }: Props) => {
             </a>
           </form>
           <ListComment>
-            {listComment?.data?.map(obj => (
-              <ItemComment>
-                <img src={'http://localhost:7007/' + obj.user?.avatarId?.url} alt="Ảnh người dùng" />
+            {listComment?.data?.map((obj, index) => (
+              <ItemComment key={index}>
+                <Image
+                  src={'http://localhost:7007/' + obj.user?.avatarId?.url}
+                  alt="Ảnh người dùng"
+                  width={500}
+                  height={500}
+                />
                 <DetailComment>
                   <div>
                     <span>{obj.user?.fullName}</span>
