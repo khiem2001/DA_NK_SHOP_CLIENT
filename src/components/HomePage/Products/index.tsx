@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Pagination from '@/components/Pagination';
-import Product from './components/Product';
+import ItemProduct from './components/ItemProduct';
 
 import { useListProduct } from './services/hooks/useListProduct';
 import { ListProduct, ProductNotification, ProductsWrapper } from './productsStyled';
@@ -74,7 +74,7 @@ const Products = () => {
           <ListProduct>
             {listProduct?.products?.map(obj => {
               return (
-                <Product
+                <ItemProduct
                   key={obj._id}
                   _id={obj._id || ''}
                   name={obj.name || ''}

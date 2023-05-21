@@ -21,7 +21,7 @@ interface IProps {
   price?: number;
   imageUrl?: string;
 }
-const Product = (props: IProps) => {
+const ItemProduct = (props: IProps) => {
   return (
     <Link href={'/products/' + props._id}>
       <ItemWrapper>
@@ -39,4 +39,4 @@ const Product = (props: IProps) => {
   );
 };
 
-export default Product;
+export default ItemProduct;
