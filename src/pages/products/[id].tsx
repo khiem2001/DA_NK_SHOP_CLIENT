@@ -266,7 +266,7 @@ const DetailProduct = ({ data }: Props) => {
                 {listComment?.data?.map((obj, index) => (
                   <ItemComment key={index}>
                     <Image
-                      src={'http://127.0.0.1:7007/' + obj.user?.avatarId?.url}
+                      src={`http://127.0.0.1:7007/${obj.user?.avatarId?.url}`}
                       alt="Ảnh người dùng"
                       width={500}
                       height={500}

@@ -27,7 +27,7 @@ const CheckoutItem = (props: any) => {
             </CheckBox>
 
             <Image
-              src={`${process.env.NEXT_PUBLIC_MEDIA_ENDPOINT}` + result.product?.image?.url}
+              src={`${process.env.NEXT_PUBLIC_MEDIA_ENDPOINT}${result.product?.image?.url}`}
               alt="Image"
               width={150}
               height={80}
