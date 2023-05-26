@@ -37,13 +37,11 @@ const useRegister = () => {
   const { mutate: registerMutate, isLoading: isRegisting } = useRegisterUserMutation(graphqlClientRequest(), {
     onSuccess: data => {
       if (data?.registerUser) {
-        console.log(data.registerUser);
         setVerifyResponse(data?.registerUser);
         Notification.Success('Đăng ký thành công vui lòng thực số điện thoại');
         setStep(RegisterStep.VERIFY);
       } else {
         Notification.Error('Hệ thống xảy ra lỗi không xác định. Vui lòng thử lại sau');
-        // console.log('data?.registerUser', data?.registerUser);
       }
     },
     onError: error => {

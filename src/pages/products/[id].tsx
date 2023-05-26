@@ -1,7 +1,7 @@
 import { GetListProductDocument, GetProductDocument } from '@/graphql/generated';
 import { graphqlClientRequest } from '@/graphql/services/graphql-client';
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { BsCartPlus } from 'react-icons/bs';
 import { GiSelfLove } from 'react-icons/gi';
@@ -9,6 +9,8 @@ import { TfiComment } from 'react-icons/tfi';
 import { AiOutlineIdcard } from 'react-icons/ai';
 import { IoSend } from 'react-icons/io5';
 import {
+  ButtonBuy,
+  ButtonComment,
   BuyWrapper,
   CommentTitle,
   CommentWrapper,
@@ -35,9 +37,13 @@ import {
 import { useListComment } from '@/components/HomePage/Products/services/hooks/useListComment';
 import { formatCurrency } from '@/utils/format-currency';
 import Image from 'next/image';
-import { useStore } from 'zustand';
 import useUserStore, { UserStore } from '@/store/useUserStore';
 import Loading from '@/components/Loading';
+import useCreateComment from '@/components/HomePage/Products/services/hooks/useCreateComment';
+import useModalStore, { StoreModal } from '@/store/useModalStore';
+import Notification from '@/components/Notification';
+import useCartStore from '@/store/useCartStore';
+import { useRouter } from 'next/router';
 
 interface Props {
   data?: any;
@@ -93,7 +99,11 @@ export async function getStaticProps({ params }: any) {
 }
 
 const DetailProduct = ({ data }: Props) => {
+  const openModal = useModalStore((state: any) => state.openModal);
   const { user } = useUserStore(store => store) as UserStore;
+  const { addItem, setDirectBuy } = useCartStore((store: any) => store);
+  const router = useRouter();
+
   let imageUser;
   if (user?.avatarId?.url) {
     imageUser = 'http://localhost:7007/' + user.avatarId.url;
@@ -101,11 +111,14 @@ const DetailProduct = ({ data }: Props) => {
     imageUser = '/images/account/default-avatar-image.jpg';
   }
   const product = data.getProduct.product;
-
-  const { listComment, isLoading } = useListComment({ id: product._id });
+  const [productId, setProductId] = useState(product._id);
+  const { listComment, isLoading } = useListComment({ id: productId });
+  const { handleCreateComment } = useCreateComment();
 
   const [quantity, setQuantity] = useState(1);
   const [showComment, setShowComment] = useState(true);
+  const [userComment, setUserComment] = useState('');
+
   const handleIncrement = () => {
     setQuantity(quantity + 1);
   };
@@ -115,6 +128,33 @@ const DetailProduct = ({ data }: Props) => {
       setQuantity(quantity - 1);
     }
   };
+  const handleCommentChange = (event: any) => {
+    setUserComment(event.target.value);
+  };
+
+  const handleComment = (event: any) => {
+    event.preventDefault();
+    if (user) {
+      handleCreateComment(userComment, productId);
+      setUserComment('');
+    } else {
+      Notification.Info('Bạn chưa đăng nhập tài khoản !');
+      openModal(StoreModal.LOGIN);
+    }
+  };
+
+  const handleBuyProduct = (e: any) => {
+    e.preventDefault();
+    if (user) {
+      setDirectBuy(true);
+      addItem({ productId, quantity, status: true, price: product.price });
+      router.push('/checkout');
+    } else {
+      Notification.Info('Đăng nhập tài khoản để mua sản phẩm!');
+      openModal(StoreModal.LOGIN);
+    }
+  };
+
   return (
     <DetailProductContainer>
       <Imagewrapper>
@@ -198,7 +238,7 @@ const DetailProduct = ({ data }: Props) => {
           <Link href="/djsjd">
             <BsCartPlus /> Thêm Vào Giỏ Hàng
           </Link>
-          <Link href="/jdkjs">Mua Ngay</Link>
+          <ButtonBuy onClick={handleBuyProduct}>Mua Ngay</ButtonBuy>
         </BuyWrapper>
       </InfoWrapper>
       {showComment && (
@@ -211,10 +251,12 @@ const DetailProduct = ({ data }: Props) => {
               name="comment"
               required
               placeholder="Hãy chia sẻ cảm nhận của bạn về sản phẩm này ..."
+              value={userComment}
+              onChange={handleCommentChange}
             ></textarea>
-            <a href="">
+            <ButtonComment onClick={handleComment}>
               <IoSend />
-            </a>
+            </ButtonComment>
           </form>
           <ListComment>
             {isLoading ? (

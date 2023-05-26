@@ -1,0 +1,7 @@
+mutation createComment($input: CreateCommentInput!) {
+  createComment(input: $input) {
+    _id
+    message
+    productId
+  }
+}

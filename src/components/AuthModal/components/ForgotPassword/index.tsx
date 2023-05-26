@@ -26,7 +26,6 @@ const Wrapper = styled.div`
     text-align: center;
     font-size: 0.9rem;
     font-weight: 300;
-    color: rgb(83, 92, 85);
     display: block;
     margin-top: 20px;
     cursor: pointer;
@@ -38,10 +37,11 @@ const Wrapper = styled.div`
 
   form {
     width: 335px;
+    margin: 0 auto;
   }
 
   .enterPhoneWrapper {
-    background-color: red;
+    background-color: #ffffff;
 
     .title {
       text-align: center;
@@ -50,6 +50,7 @@ const Wrapper = styled.div`
       color: rgb(83, 92, 85);
       text-transform: uppercase;
       margin-bottom: 0.5rem;
+      padding-top: 40px;
     }
 
     .description {
@@ -58,7 +59,7 @@ const Wrapper = styled.div`
       font-size: 0.9rem;
       font-weight: 300;
       color: rgb(83, 92, 85);
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
     }
 
     button {
@@ -83,7 +84,7 @@ const ForgotPassword = ({ onBack }: any) => {
   if (step === Step.ENTER_PHONE) {
     return (
       <Wrapper>
-        <div className="enterPhoneWrapper">
+        <div className="enterPhoneWrapper !bg-white">
           <h3 className="title">Đặt lại mật khẩu</h3>
           <span className="description">Vui lòng nhập số điện thoại để bắt đầu đặt lại mật khẩu</span>
           <Formik
@@ -176,13 +177,6 @@ const ForgotPassword = ({ onBack }: any) => {
             </AuthButton>
           </Form>
         </Formik>
-
-        {/* {isLoginLoading && (
-          <div className="login-loading-wrapper">
-            <LoadingCenter />
-            <span className="login-loading-label">Đang đăng nhập...</span>
-          </div>
-        )} */}
       </Wrapper>
     );
   }

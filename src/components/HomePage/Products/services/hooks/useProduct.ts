@@ -5,7 +5,7 @@ import { useGetProductQuery } from '@/graphql/generated';
 interface IProps {
   productId: string;
 }
-export const useProduct = (props: IProps) => {
+const useProduct = (props: IProps) => {
   const { data, isLoading } = useGetProductQuery(graphqlClientRequest(), {
     input: { ...props }
   });
@@ -16,3 +16,4 @@ export const useProduct = (props: IProps) => {
 
   return { result, isLoading };
 };
+export default useProduct;

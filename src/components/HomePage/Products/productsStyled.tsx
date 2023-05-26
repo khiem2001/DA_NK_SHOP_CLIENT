@@ -285,17 +285,6 @@ export const BuyWrapper = styled.div`
       background-color: #f8efe9;
     }
   }
-  a:nth-child(2) {
-    color: #ffffff;
-    padding: 15px 25px;
-    border: 1px solid #ff5f03;
-    background-color: #ff5f03;
-    font-weight: 500;
-    margin-left: 80px;
-    &:hover {
-      background-color: #fc802e;
-    }
-  }
 `;
 export const CommentWrapper = styled.div`
   width: 70%;
@@ -338,14 +327,6 @@ export const CommentWrapper = styled.div`
       border-radius: 5px;
       &:focus {
         outline: 2px solid #3cebeb;
-      }
-    }
-    a {
-      margin-left: 40px;
-      color: #065991;
-      font-size: 30px;
-      &:hover {
-        color: #3e94e4;
       }
     }
   }
@@ -400,4 +381,23 @@ export const ContentComment = styled.p`
   width: 100%;
   padding: 10px;
   overflow: auto;
+`;
+export const ButtonComment = styled.button`
+  margin-left: 40px;
+  color: #065991;
+  font-size: 30px;
+  &:hover {
+    color: #3e94e4;
+  }
+`;
+export const ButtonBuy = styled.button`
+  color: #ffffff;
+  padding: 15px 25px;
+  border: 1px solid #ff5f03;
+  background-color: #ff5f03;
+  font-weight: 500;
+  margin-left: 80px;
+  &:hover {
+    background-color: #fc802e;
+  }
 `;

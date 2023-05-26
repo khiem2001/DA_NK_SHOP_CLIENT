@@ -612,6 +612,20 @@ export type VerifyPhoneMutationVariables = Exact<{
 
 export type VerifyPhoneMutation = { __typename?: 'Mutation', verifyPhone: { __typename?: 'VerifyPhoneResponse', verified: boolean } };
 
+export type CreatePaymentMutationVariables = Exact<{
+  input: CreatePaymentInputDto;
+}>;
+
+
+export type CreatePaymentMutation = { __typename?: 'Mutation', createPayment: { __typename?: 'CreatePaymentResponse', redirectUrl?: string | null, success?: boolean | null } };
+
+export type CreateCommentMutationVariables = Exact<{
+  input: CreateCommentInput;
+}>;
+
+
+export type CreateCommentMutation = { __typename?: 'Mutation', createComment: { __typename?: 'CommentResponse', _id: string, message: string, productId?: string | null } };
+
 export type GetListCommentQueryVariables = Exact<{
   input: ListCommentInput;
 }>;
@@ -836,6 +850,49 @@ export const useVerifyPhoneMutation = <
     useMutation<VerifyPhoneMutation, TError, VerifyPhoneMutationVariables, TContext>(
       ['verifyPhone'],
       (variables?: VerifyPhoneMutationVariables) => fetcher<VerifyPhoneMutation, VerifyPhoneMutationVariables>(client, VerifyPhoneDocument, variables, headers)(),
+      options
+    );
+export const CreatePaymentDocument = `
+    mutation createPayment($input: CreatePaymentInputDto!) {
+  createPayment(input: $input) {
+    redirectUrl
+    success
+  }
+}
+    `;
+export const useCreatePaymentMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreatePaymentMutation, TError, CreatePaymentMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreatePaymentMutation, TError, CreatePaymentMutationVariables, TContext>(
+      ['createPayment'],
+      (variables?: CreatePaymentMutationVariables) => fetcher<CreatePaymentMutation, CreatePaymentMutationVariables>(client, CreatePaymentDocument, variables, headers)(),
+      options
+    );
+export const CreateCommentDocument = `
+    mutation createComment($input: CreateCommentInput!) {
+  createComment(input: $input) {
+    _id
+    message
+    productId
+  }
+}
+    `;
+export const useCreateCommentMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateCommentMutation, TError, CreateCommentMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreateCommentMutation, TError, CreateCommentMutationVariables, TContext>(
+      ['createComment'],
+      (variables?: CreateCommentMutationVariables) => fetcher<CreateCommentMutation, CreateCommentMutationVariables>(client, CreateCommentDocument, variables, headers)(),
       options
     );
 export const GetListCommentDocument = `

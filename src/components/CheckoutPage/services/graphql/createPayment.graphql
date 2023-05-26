@@ -1,0 +1,6 @@
+mutation createPayment($input: CreatePaymentInputDto!) {
+  createPayment(input: $input) {
+    redirectUrl
+    success
+  }
+}

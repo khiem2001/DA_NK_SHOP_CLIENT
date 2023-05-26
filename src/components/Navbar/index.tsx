@@ -15,7 +15,7 @@ import { RiShoppingCartLine } from 'react-icons/ri';
 import { RiMessengerLine } from 'react-icons/ri';
 import { IoMdNotificationsOutline } from 'react-icons/io';
 import { RiUserReceived2Fill } from 'react-icons/ri';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import useUserStore, { UserStore } from '@/store/useUserStore';
 import useModalStore, { StoreModal } from '@/store/useModalStore';
 
