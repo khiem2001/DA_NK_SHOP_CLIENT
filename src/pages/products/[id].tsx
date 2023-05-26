@@ -106,7 +106,7 @@ const DetailProduct = ({ data }: Props) => {
 
   let imageUser;
   if (user?.avatarId?.url) {
-    imageUser = 'http://localhost:7007/' + user.avatarId.url;
+    imageUser = 'http://127.0.0.1:7007/' + user.avatarId.url;
   } else {
     imageUser = '/images/account/default-avatar-image.jpg';
   }
@@ -158,7 +158,7 @@ const DetailProduct = ({ data }: Props) => {
   return (
     <DetailProductContainer>
       <Imagewrapper>
-        <ImageProduct src={'http://localhost:7007/' + product.image.url} alt={product.name} />
+        <ImageProduct src={'http://127.0.0.1:7007/' + product.image.url} alt={product.name} />
         <DetailOfUsers>
           <Link href="">
             <GiSelfLove />
@@ -266,7 +266,7 @@ const DetailProduct = ({ data }: Props) => {
                 {listComment?.data?.map((obj, index) => (
                   <ItemComment key={index}>
                     <Image
-                      src={'http://localhost:7007/' + obj.user?.avatarId?.url}
+                      src={'http://127.0.0.1:7007/' + obj.user?.avatarId?.url}
                       alt="Ảnh người dùng"
                       width={500}
                       height={500}
