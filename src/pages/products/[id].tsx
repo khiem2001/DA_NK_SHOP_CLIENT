@@ -24,6 +24,7 @@ import {
   DetailProductContainer,
   DetailValue,
   Details,
+  ImageCommon,
   ImageProduct,
   Imagewrapper,
   InfoWrapper,
@@ -245,7 +246,7 @@ const DetailProduct = ({ data }: Props) => {
         <CommentWrapper>
           <CommentTitle>Bình Luận Của Người Dùng</CommentTitle>
           <form>
-            <Image src={imageUser} alt={product.name} width={500} height={500} />
+            <ImageCommon src={imageUser} alt={product.name} width={500} height={500} />
             <textarea
               id="comment"
               name="comment"
@@ -265,7 +266,7 @@ const DetailProduct = ({ data }: Props) => {
               <div>
                 {listComment?.data?.map((obj, index) => (
                   <ItemComment key={index}>
-                    <Image
+                    <ImageCommon
                       src={`http://127.0.0.1:7007/${obj.user?.avatarId?.url}`}
                       alt="Ảnh người dùng"
                       width={500}

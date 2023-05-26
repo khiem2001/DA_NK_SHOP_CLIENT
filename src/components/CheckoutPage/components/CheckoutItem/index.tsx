@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { NumberFieldCheckout } from '@/components/Form/NumberField';
 import { formatPrice } from '@/utils/string';
+import { ImageCommon } from '@/components/HomePage/Products/productsStyled';
 
 const CheckoutItem = (props: any) => {
   const { item, toggleSelectItem, onChangeQuantity } = props;
@@ -26,7 +27,7 @@ const CheckoutItem = (props: any) => {
               </label>
             </CheckBox>
 
-            <Image
+            <ImageCommon
               src={`${process.env.NEXT_PUBLIC_MEDIA_ENDPOINT}${result.product?.image?.url}`}
               alt="Image"
               width={150}

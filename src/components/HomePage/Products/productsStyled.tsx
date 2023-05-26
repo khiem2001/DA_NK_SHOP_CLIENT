@@ -401,3 +401,12 @@ export const ButtonBuy = styled.button`
     background-color: #fc802e;
   }
 `;
+interface ImageProps {
+  width: number;
+  height: number;
+}
+
+export const ImageCommon = styled.img<ImageProps>`
+  width: ${props => props.width}px;
+  height: ${props => props.height}px;
+`;
