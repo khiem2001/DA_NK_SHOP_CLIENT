@@ -12,8 +12,8 @@ type Props = {
   onCheckout: (
     paymentMethod: PaymentMethod,
     shippingAddress: string,
-    paymentProvider?: PaymentProvider,
-    paymentType?: PaymentType
+    paymentProvider: PaymentProvider,
+    paymentType: PaymentType
   ) => void;
   selectedItems: any[];
   isLoading: boolean;
