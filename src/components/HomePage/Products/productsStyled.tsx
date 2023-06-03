@@ -409,4 +409,6 @@ interface ImageProps {
 export const ImageCommon = styled.img<ImageProps>`
   width: ${props => props.width}px;
   height: ${props => props.height}px;
+  object-fit: cover; /* Cắt hình ảnh để vừa khớp với kích thước */
+  object-position: center; /* Hiển thị phần tử trung tâm của hình ảnh */
 `;

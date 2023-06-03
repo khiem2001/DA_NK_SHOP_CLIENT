@@ -30,6 +30,7 @@ const useLoginForm = () => {
         user
       );
       Notification.Success('Đăng nhập thành công');
+
       hideModal();
     } else {
       Notification.Error('Xảy ra lỗi không xác định');

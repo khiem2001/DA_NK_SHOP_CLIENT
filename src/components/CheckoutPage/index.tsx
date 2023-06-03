@@ -62,13 +62,8 @@ const CheckoutPage = () => {
             </div>
 
             {listItem?.map((obj: any) => (
-              <div className="bg-[#F2F2F2] pl-[24px] pb-[50px] mt-[20px] pt-2">
-                <CheckoutItem
-                  key={obj?.productId}
-                  item={obj}
-                  onChangeQuantity={changeQuantity}
-                  toggleSelectItem={toggleSelectItem}
-                />
+              <div className="bg-[#F2F2F2] pl-[24px] pb-[50px] mt-[20px] pt-2" key={obj?.productId}>
+                <CheckoutItem item={obj} onChangeQuantity={changeQuantity} toggleSelectItem={toggleSelectItem} />
               </div>
             ))}
           </div>
