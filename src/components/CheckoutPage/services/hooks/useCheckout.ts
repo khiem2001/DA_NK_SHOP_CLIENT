@@ -7,6 +7,7 @@ import useCartStore, { CartStore } from '@/store/useCartStore';
 
 const useCheckout = () => {
   const { items, isDirectBuy } = useCartStore(store => store) as CartStore;
+  const clearCart = useCartStore((store: any) => store.clear);
   const [listItem, setListItem] = useState<any>([]);
 
   const { mutate: createPaymentMutate, isLoading: isCreatingPayment } = useCreatePaymentMutation(
@@ -15,9 +16,11 @@ const useCheckout = () => {
       onSuccess: data => {
         const paymentUrl = data?.createPayment?.redirectUrl;
         const success = data?.createPayment?.success;
-        console.log(success);
-        console.log(paymentUrl);
-        // window.location.href = paymentUrl;
+        clearCart();
+        if (success) {
+        } else {
+          window.location.href = paymentUrl || '/';
+        }
       },
       onError: err => {
         showErrorMessage(err);
@@ -70,17 +73,6 @@ const useCheckout = () => {
       paymentProvider: PaymentProvider,
       paymentType: PaymentType
     ) => {
-      console.log('input', {
-        code: randomText(7),
-        items: selectedItems?.map((item: any) => ({
-          id: item?.productId,
-          quantity: item?.quantity || 1
-        })),
-        paymentMethod,
-        shippingAddress,
-        paymentProvider,
-        paymentType
-      });
       createPaymentMutate({
         input: {
           code: randomText(7),
