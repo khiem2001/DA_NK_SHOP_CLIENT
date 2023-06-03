@@ -18,6 +18,7 @@ const useCheckout = () => {
         const success = data?.createPayment?.success;
         clearCart();
         if (success) {
+          window.location.href = 'https://da-nk-shop-client-q1q2.vercel.app';
         } else {
           window.location.href = paymentUrl || '/';
         }
