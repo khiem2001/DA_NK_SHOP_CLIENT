@@ -20,7 +20,7 @@ const useCheckout = () => {
         clearCart();
         if (success) {
           Notification.Success('Bạn đã đặt hàng thành công !');
-          window.location.href = 'https://da-nk-shop-client-q1q2.vercel.app';
+          window.location.href = '/';
         } else {
           window.location.href = paymentUrl || '/';
         }
