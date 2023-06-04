@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { showErrorMessage } from '@/utils/error';
 import { randomText } from '@/utils/string';
 import useCartStore, { CartStore } from '@/store/useCartStore';
+import Notification from '@/components/Notification';
 
 const useCheckout = () => {
   const { items, isDirectBuy } = useCartStore(store => store) as CartStore;
@@ -18,6 +19,7 @@ const useCheckout = () => {
         const success = data?.createPayment?.success;
         clearCart();
         if (success) {
+          Notification.Success('Bạn đã đặt hàng thành công !');
           window.location.href = 'https://da-nk-shop-client-q1q2.vercel.app';
         } else {
           window.location.href = paymentUrl || '/';

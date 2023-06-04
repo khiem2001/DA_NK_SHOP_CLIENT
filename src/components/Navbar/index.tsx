@@ -88,7 +88,10 @@ export default function Navbar() {
         <MenuItemsWrapper>
           <MenuItems>
             <Item isSelected={true}>
-              <Link href="/">
+              {/* <button onClick={() => {}}>
+                <RiMessengerLine />
+              </button> */}
+              <Link href="/message">
                 <RiMessengerLine />
               </Link>
             </Item>

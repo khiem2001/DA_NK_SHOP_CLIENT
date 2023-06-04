@@ -29,9 +29,36 @@ export type AdminInputDto = {
   userName: Scalars['String'];
 };
 
+export type AdminLoginResponse = {
+  __typename?: 'AdminLoginResponse';
+  expiresAt: Scalars['String'];
+  payload: AdminPayload;
+  refreshToken: Scalars['String'];
+  refreshTokenExpiresAt: Scalars['String'];
+  token: Scalars['String'];
+};
+
+export type AdminPayload = {
+  __typename?: 'AdminPayload';
+  _id?: Maybe<Scalars['String']>;
+  fullName?: Maybe<Scalars['String']>;
+  password?: Maybe<Scalars['String']>;
+  userName?: Maybe<Scalars['String']>;
+};
+
 export type BooleanPayload = {
   __typename?: 'BooleanPayload';
   success?: Maybe<Scalars['Boolean']>;
+};
+
+export type ChangePassWhenLoginInput = {
+  currentPassword: Scalars['String'];
+  newPassword: Scalars['String'];
+};
+
+export type ChangePassWhenLoginType = {
+  __typename?: 'ChangePassWhenLoginType';
+  changed: Scalars['Boolean'];
 };
 
 export type ChangePasswordInputDto = {
@@ -74,7 +101,7 @@ export type ConversationDtoType = {
   createdBy?: Maybe<Scalars['String']>;
   deletedAt?: Maybe<Scalars['Float']>;
   deletedBy?: Maybe<Scalars['String']>;
-  members: Array<Scalars['String']>;
+  members?: Maybe<Array<Maybe<UserDtoType>>>;
   name: Scalars['String'];
   ownerId?: Maybe<Scalars['String']>;
   type: ConversationType;
@@ -111,7 +138,7 @@ export type CreatePaymentInputDto = {
   paymentMethod: PaymentMethod;
   paymentProvider?: InputMaybe<PaymentProvider>;
   paymentType?: InputMaybe<PaymentType>;
-  shippingAddress?: InputMaybe<Scalars['String']>;
+  shippingAddress: Scalars['String'];
 };
 
 export type CreatePaymentResponse = {
@@ -121,21 +148,20 @@ export type CreatePaymentResponse = {
 };
 
 export type CreateProductInputDto = {
-  compatibility: Scalars['String'];
-  connectivity: Scalars['String'];
+  compatibility?: InputMaybe<Scalars['String']>;
+  connectivity?: InputMaybe<Scalars['String']>;
   countInStock: Scalars['Float'];
   description: Scalars['String'];
-  dimensions: Scalars['String'];
+  dimensions?: InputMaybe<Scalars['String']>;
   image: Scalars['String'];
-  manufacturer: Scalars['String'];
-  modelNumber: Scalars['String'];
+  manufacturer?: InputMaybe<Scalars['String']>;
+  modelNumber?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
-  powerSource: Scalars['String'];
+  powerSource?: InputMaybe<Scalars['String']>;
   price: Scalars['Float'];
   type: Scalars['String'];
-  video: Scalars['String'];
-  warranty: Scalars['String'];
-  weight: Scalars['String'];
+  warranty?: InputMaybe<Scalars['String']>;
+  weight?: InputMaybe<Scalars['String']>;
 };
 
 export type FilterProductInput = {
@@ -150,9 +176,15 @@ export enum Gender {
   Unknown = 'Unknown'
 }
 
+export type GetIdAdminResponse = {
+  __typename?: 'GetIdAdminResponse';
+  id: Scalars['String'];
+};
+
 export type GetListProductInput = {
   filter?: InputMaybe<FilterProductInput>;
   pagination: PaginationBaseInput;
+  query?: InputMaybe<Scalars['String']>;
 };
 
 export type GetListProductResponse = {
@@ -179,6 +211,25 @@ export type ListCommentInput = {
 export type ListCommentResponse = {
   __typename?: 'ListCommentResponse';
   data?: Maybe<Array<CommentResponse>>;
+};
+
+export type ListConversationInput = {
+  userId: Scalars['String'];
+};
+
+export type ListConversationResponse = {
+  __typename?: 'ListConversationResponse';
+  data: Array<ConversationDtoType>;
+};
+
+export type ListMessageInput = {
+  conversationId: Scalars['String'];
+  pagination: PaginationBaseInput;
+};
+
+export type ListMessageResponse = {
+  __typename?: 'ListMessageResponse';
+  data: Array<MessageDtoType>;
 };
 
 export type LoginResponse = {
@@ -218,9 +269,25 @@ export enum MediaStatus {
   Uploading = 'UPLOADING'
 }
 
+export type MessageDtoType = {
+  __typename?: 'MessageDtoType';
+  _id: Scalars['String'];
+  content: Scalars['String'];
+  conversationId: Scalars['String'];
+  createdAt?: Maybe<Scalars['Float']>;
+  createdBy?: Maybe<Scalars['String']>;
+  deletedAt?: Maybe<Scalars['Float']>;
+  deletedBy?: Maybe<Scalars['String']>;
+  senderId?: Maybe<UserDtoType>;
+  updatedAt?: Maybe<Scalars['Float']>;
+  updatedBy?: Maybe<Scalars['String']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
+  adminLogin: AdminLoginResponse;
   changePassword: ChangePasswordResponse;
+  changePasswordWhenLogin: ChangePassWhenLoginType;
   confirmOtp: ConfirmOtpResponse;
   createAdmin: BooleanPayload;
   createComment: CommentResponse;
@@ -235,13 +302,25 @@ export type Mutation = {
   registerUser: RegisterUserResponse;
   sendEmailVerify: BooleanPayload;
   sendOtp: SendOtpResponse;
+  updateAvatarUser: BooleanPayload;
   updateProduct: BooleanPayload;
+  updateProfile: UpdateProfileResponse;
   verifyPhone: VerifyPhoneResponse;
+};
+
+
+export type MutationAdminLoginArgs = {
+  input: AdminInputDto;
 };
 
 
 export type MutationChangePasswordArgs = {
   input: ChangePasswordInputDto;
+};
+
+
+export type MutationChangePasswordWhenLoginArgs = {
+  input: ChangePassWhenLoginInput;
 };
 
 
@@ -315,8 +394,18 @@ export type MutationSendOtpArgs = {
 };
 
 
+export type MutationUpdateAvatarUserArgs = {
+  input: UpdateAvatarInput;
+};
+
+
 export type MutationUpdateProductArgs = {
   input: UpdateProductInputDto;
+};
+
+
+export type MutationUpdateProfileArgs = {
+  input: UpdateProfileInputDto;
 };
 
 
@@ -365,20 +454,19 @@ export enum PaymentType {
 }
 
 export type ProductInputDto = {
-  compatibility: Scalars['String'];
-  connectivity: Scalars['String'];
+  compatibility?: InputMaybe<Scalars['String']>;
+  connectivity?: InputMaybe<Scalars['String']>;
   countInStock: Scalars['Float'];
   description: Scalars['String'];
-  dimensions: Scalars['String'];
+  dimensions?: InputMaybe<Scalars['String']>;
   image: Scalars['String'];
-  manufacturer: Scalars['String'];
-  modelNumber: Scalars['String'];
+  manufacturer?: InputMaybe<Scalars['String']>;
+  modelNumber?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
-  powerSource: Scalars['String'];
+  powerSource?: InputMaybe<Scalars['String']>;
   price: Scalars['Float'];
-  video: Scalars['String'];
-  warranty: Scalars['String'];
-  weight: Scalars['String'];
+  warranty?: InputMaybe<Scalars['String']>;
+  weight?: InputMaybe<Scalars['String']>;
 };
 
 export type ProductPayload = {
@@ -387,6 +475,7 @@ export type ProductPayload = {
   compatibility?: Maybe<Scalars['String']>;
   connectivity?: Maybe<Scalars['String']>;
   countInStock?: Maybe<Scalars['Float']>;
+  createdAt?: Maybe<Scalars['Float']>;
   description?: Maybe<Scalars['String']>;
   dimensions?: Maybe<Scalars['String']>;
   image?: Maybe<Media>;
@@ -399,6 +488,7 @@ export type ProductPayload = {
   totalLike?: Maybe<Scalars['Float']>;
   totalSold?: Maybe<Scalars['Float']>;
   type?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['Float']>;
   video?: Maybe<Scalars['String']>;
   warranty?: Maybe<Scalars['String']>;
   weight?: Maybe<Scalars['String']>;
@@ -422,11 +512,15 @@ export enum Provider {
 
 export type Query = {
   __typename?: 'Query';
+  getAdmin: AdminPayload;
+  getIdAdmin: GetIdAdminResponse;
   getListProduct: GetListProductResponse;
+  getMe: UserDtoType;
   getProduct: GetProductResponse;
   listComment: ListCommentResponse;
+  listConversation: ListConversationResponse;
+  listMessage: ListMessageResponse;
   listType: GetListTypeResponse;
-  sayHello: Scalars['String'];
 };
 
 
@@ -442,6 +536,16 @@ export type QueryGetProductArgs = {
 
 export type QueryListCommentArgs = {
   input: ListCommentInput;
+};
+
+
+export type QueryListConversationArgs = {
+  input: ListConversationInput;
+};
+
+
+export type QueryListMessageArgs = {
+  input: ListMessageInput;
 };
 
 export type ReadProductInputDto = {
@@ -488,9 +592,27 @@ export type SubscriptionOnSendMessageArgs = {
   productId: Scalars['String'];
 };
 
+export type UpdateAvatarInput = {
+  avatarId?: InputMaybe<Scalars['String']>;
+};
+
 export type UpdateProductInputDto = {
   productId: Scalars['String'];
   updateInput: ProductInputDto;
+};
+
+export type UpdateProfileInputDto = {
+  address?: InputMaybe<Scalars['String']>;
+  birthday?: InputMaybe<Scalars['String']>;
+  country?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
+  fullName?: InputMaybe<Scalars['String']>;
+  gender?: InputMaybe<Gender>;
+};
+
+export type UpdateProfileResponse = {
+  __typename?: 'UpdateProfileResponse';
+  updated: Scalars['Boolean'];
 };
 
 export type UserDtoType = {
@@ -651,6 +773,30 @@ export type ListTypeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type ListTypeQuery = { __typename?: 'Query', listType: { __typename?: 'GetListTypeResponse', data?: Array<{ __typename?: 'ProductType', _id?: string | null, name?: string | null }> | null } };
+
+export type CreateConversationMutationVariables = Exact<{
+  input: CreateConversationInput;
+}>;
+
+
+export type CreateConversationMutation = { __typename?: 'Mutation', createConversation: { __typename?: 'CreateConversationType', conversation: { __typename?: 'ConversationDtoType', _id: string } } };
+
+export type GetIdAdminQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetIdAdminQuery = { __typename?: 'Query', getIdAdmin: { __typename?: 'GetIdAdminResponse', id: string } };
+
+export type ListMessageQueryVariables = Exact<{
+  input: ListMessageInput;
+}>;
+
+
+export type ListMessageQuery = { __typename?: 'Query', listMessage: { __typename?: 'ListMessageResponse', data: Array<{ __typename?: 'MessageDtoType', content: string, createdAt?: number | null, senderId?: { __typename?: 'UserDtoType', _id?: string | null, fullName?: string | null, avatarId?: { __typename?: 'Media', url?: string | null } | null } | null }> } };
+
+export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetMeQuery = { __typename?: 'Query', getMe: { __typename?: 'UserDtoType', _id?: string | null, fullName?: string | null, phoneNumber?: string | null, verified?: boolean | null, birthday?: number | null, address?: string | null, verifyPhone?: boolean | null, verifyEmail?: boolean | null, avatarId?: { __typename?: 'Media', url?: string | null } | null } };
 
 
 export const ComfirmWhenResendDocument = `
@@ -1026,5 +1172,110 @@ export const useListTypeQuery = <
     useQuery<ListTypeQuery, TError, TData>(
       variables === undefined ? ['ListType'] : ['ListType', variables],
       fetcher<ListTypeQuery, ListTypeQueryVariables>(client, ListTypeDocument, variables, headers),
+      options
+    );
+export const CreateConversationDocument = `
+    mutation createConversation($input: CreateConversationInput!) {
+  createConversation(input: $input) {
+    conversation {
+      _id
+    }
+  }
+}
+    `;
+export const useCreateConversationMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<CreateConversationMutation, TError, CreateConversationMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<CreateConversationMutation, TError, CreateConversationMutationVariables, TContext>(
+      ['createConversation'],
+      (variables?: CreateConversationMutationVariables) => fetcher<CreateConversationMutation, CreateConversationMutationVariables>(client, CreateConversationDocument, variables, headers)(),
+      options
+    );
+export const GetIdAdminDocument = `
+    query getIdAdmin {
+  getIdAdmin {
+    id
+  }
+}
+    `;
+export const useGetIdAdminQuery = <
+      TData = GetIdAdminQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: GetIdAdminQueryVariables,
+      options?: UseQueryOptions<GetIdAdminQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<GetIdAdminQuery, TError, TData>(
+      variables === undefined ? ['getIdAdmin'] : ['getIdAdmin', variables],
+      fetcher<GetIdAdminQuery, GetIdAdminQueryVariables>(client, GetIdAdminDocument, variables, headers),
+      options
+    );
+export const ListMessageDocument = `
+    query listMessage($input: ListMessageInput!) {
+  listMessage(input: $input) {
+    data {
+      senderId {
+        _id
+        fullName
+        avatarId {
+          url
+        }
+      }
+      content
+      createdAt
+    }
+  }
+}
+    `;
+export const useListMessageQuery = <
+      TData = ListMessageQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: ListMessageQueryVariables,
+      options?: UseQueryOptions<ListMessageQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<ListMessageQuery, TError, TData>(
+      ['listMessage', variables],
+      fetcher<ListMessageQuery, ListMessageQueryVariables>(client, ListMessageDocument, variables, headers),
+      options
+    );
+export const GetMeDocument = `
+    query getMe {
+  getMe {
+    _id
+    fullName
+    phoneNumber
+    verified
+    birthday
+    address
+    avatarId {
+      url
+    }
+    verifyPhone
+    verifyEmail
+  }
+}
+    `;
+export const useGetMeQuery = <
+      TData = GetMeQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: GetMeQueryVariables,
+      options?: UseQueryOptions<GetMeQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<GetMeQuery, TError, TData>(
+      variables === undefined ? ['getMe'] : ['getMe', variables],
+      fetcher<GetMeQuery, GetMeQueryVariables>(client, GetMeDocument, variables, headers),
       options
     );

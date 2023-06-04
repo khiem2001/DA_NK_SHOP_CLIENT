@@ -155,7 +155,8 @@ export const Item = styled.div<{ isSelected: boolean }>`
     color: #6786ff;
   }
 
-  a {
+  a,
+  button {
     color: ${colors.white_color};
     z-index: 10;
     font-size: ${pixel2vw(13)};
@@ -163,6 +164,9 @@ export const Item = styled.div<{ isSelected: boolean }>`
   }
 
   a:hover {
+    color: #fa6f4c;
+  }
+  button:hover {
     color: #fa6f4c;
   }
 

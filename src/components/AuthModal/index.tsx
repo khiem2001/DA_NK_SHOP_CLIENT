@@ -6,13 +6,7 @@ import useModalStore, { StoreModal } from '@/store/useModalStore';
 import LoginForm from './components/LoginForm';
 import RegisterForm from './components/RegisterForm/registerForm';
 const AuthModal = () => {
-  const { name, config, hideModal } = useModalStore((state: any) => state);
-  // const { user } = useUserStore(store => store) as UserStore;
-  // useEffect(() => {
-  //   if (user && typeof config?.onSuccess === 'function') {
-  //     config.onSuccess();
-  //   }
-  // }, [user, config]);
+  const { name, hideModal } = useModalStore((state: any) => state);
 
   const [activeTab, setActiveTab] = useState('login');
 
