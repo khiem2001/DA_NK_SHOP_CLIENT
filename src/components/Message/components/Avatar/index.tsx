@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { ImageAvatar } from './styled';
 
 const Avatar = ({ props }: any) => {
   return (
@@ -15,7 +16,7 @@ const Avatar = ({ props }: any) => {
         md:w-11
       "
       >
-        <Image fill src={props.image} alt="Avatar" />
+        <ImageAvatar src={props.image} alt="Avatar" />
       </div>
 
       <span
