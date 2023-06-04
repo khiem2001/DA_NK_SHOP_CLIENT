@@ -6,6 +6,7 @@ import { format } from 'date-fns';
 
 const MessageBox = ({ props }: any) => {
   const { user } = useUserStore(store => store) as UserStore;
+  console.log(user);
   const { senderId, content, createdAt } = props;
   let isOwn = true;
   if (!senderId || senderId._id !== user?._id) {
