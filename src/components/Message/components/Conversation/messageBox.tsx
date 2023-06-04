@@ -8,10 +8,13 @@ const MessageBox = ({ props }: any) => {
   const { user } = useUserStore(store => store) as UserStore;
   const { senderId, content, createdAt } = props;
   let isOwn = true;
-  if (senderId && senderId._id !== user?._id) {
+  if (!senderId || senderId._id !== user?._id) {
     isOwn = false;
   }
-  const imageUrl = process.env.NEXT_PUBLIC_MEDIA_ENDPOINT + senderId?.avatarId?.url;
+  const imageUrl =
+    senderId?.fullName === 'Admin'
+      ? senderId?.avatarId?.url
+      : process.env.NEXT_PUBLIC_MEDIA_ENDPOINT + senderId?.avatarId?.url;
   const container = clsx('flex gap-3 mb-5', isOwn && 'justify-end');
   const avatar = clsx(isOwn && 'order-2');
   const body = clsx('flex flex-col gap-2  w-[50%]', isOwn && 'items-end');
@@ -22,7 +25,11 @@ const MessageBox = ({ props }: any) => {
         <Avatar
           props={{
             image: `${
-              senderId ? (senderId.avatarId ? imageUrl : '/images/account/admin.jpg') : '/images/account/admin.jpg'
+              senderId
+                ? senderId.avatarId
+                  ? imageUrl
+                  : '/images/account/default-avatar-image.jpg'
+                : '/images/account/admin.jpg'
             }`
           }}
         />

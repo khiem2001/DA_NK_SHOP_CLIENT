@@ -3,9 +3,12 @@ import React from 'react';
 import Avatar from '../Avatar';
 import ConversationBox from './conversationBox';
 import { FaWindowClose } from 'react-icons/fa';
+import { LoadingCenter } from '@/components/Loading';
+import { useRouter } from 'next/router';
 
 const Conversation = () => {
   const { conversation, setConversationData } = useMessageStore(store => store) as MessageStore;
+  const router = useRouter();
 
   return (
     <div className="w-full mt-5 border-2 border-slate-300 border-l-0 flex flex-col align-middle  justify-center">
@@ -16,7 +19,7 @@ const Conversation = () => {
               <Avatar props={{ image: conversation.avatarUrl }} />
               <p className="text-black ml-5 mb-2 text-xl">{conversation.nameUser}</p>
             </div>
-            <button onClick={() => setConversationData(null)}>
+            <button onClick={() => router.push('/')}>
               <FaWindowClose className="text-3xl mb-7" />
             </button>
           </div>
@@ -24,7 +27,7 @@ const Conversation = () => {
           <ConversationBox props={{ _id: conversation._id }} />
         </div>
       ) : (
-        <p className="text-slate-700 text-center">Hãy chọn một đoạn chat hoặc bắt đầu cuộc trò chuyện mới</p>
+        <LoadingCenter />
       )}
     </div>
   );

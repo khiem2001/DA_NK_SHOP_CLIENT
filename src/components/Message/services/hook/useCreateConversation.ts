@@ -6,7 +6,6 @@ import { useCallback } from 'react';
 
 const useCreateConversation = () => {
   const { setConversationData } = useMessageStore(store => store) as MessageStore;
-
   const { mutate: createConversation, isLoading } = useCreateConversationMutation(graphqlClientRequest(true), {
     onSuccess: data => {
       setConversationData({

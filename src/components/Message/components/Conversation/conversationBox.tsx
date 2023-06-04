@@ -50,6 +50,7 @@ const ConversationBox = ({ props }: any) => {
   useEffect(() => {
     if (socket) {
       socket.on('message', (data: Message) => {
+        console.log(data);
         setMessageOfUsers(prevMessages => [
           ...prevMessages,
           {
@@ -70,7 +71,7 @@ const ConversationBox = ({ props }: any) => {
     e.preventDefault();
     const payload = {
       to: props._id,
-      from: { _id: user?._id, avatarId: null, fullName: 'Admin' },
+      from: { _id: user?._id, avatarId: { url: user?.avatarId?.url }, fullName: user?.fullName },
       message: message
     };
     socket && socket.emit('sendMessage', payload);
@@ -81,7 +82,6 @@ const ConversationBox = ({ props }: any) => {
       messageContainerRef.current.scrollTop = messageContainerRef.current.scrollHeight;
     }
   }, [messageOfUsers]);
-
   return (
     <div className="flex flex-col h-[680px]">
       <div className=" h-5/6 p-5 overflow-y-auto scroll-auto" ref={messageContainerRef}>
