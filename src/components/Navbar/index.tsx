@@ -18,11 +18,14 @@ import { RiUserReceived2Fill } from 'react-icons/ri';
 import { useMemo, useState } from 'react';
 import useUserStore, { UserStore } from '@/store/useUserStore';
 import useModalStore, { StoreModal } from '@/store/useModalStore';
+import Notification from '../Notification';
+import { useRouter } from 'next/router';
 
 export default function Navbar() {
   const { user } = useUserStore(store => store) as UserStore;
   const openModal = useModalStore((state: any) => state.openModal);
   const [isShowDropdown, setShowDropdown] = useState(false);
+  const router = useRouter();
 
   const displayName = useMemo(() => {
     if (user) {
@@ -88,12 +91,18 @@ export default function Navbar() {
         <MenuItemsWrapper>
           <MenuItems>
             <Item isSelected={true}>
-              {/* <button onClick={() => {}}>
+              <button
+                onClick={() => {
+                  if (user) {
+                    router.push('/message');
+                  } else {
+                    Notification.Info('Đăng nhập tài khoản để gửi tin nhắn!');
+                    openModal(StoreModal.LOGIN);
+                  }
+                }}
+              >
                 <RiMessengerLine />
-              </button> */}
-              <Link href="/message">
-                <RiMessengerLine />
-              </Link>
+              </button>
             </Item>
             <Item isSelected={false}>
               <Link href="/">
