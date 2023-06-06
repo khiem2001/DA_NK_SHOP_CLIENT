@@ -1,0 +1,5 @@
+query isFavoriteProduct($input: IsFavoriteProductInput!) {
+  isFavoriteProduct(input: $input) {
+    success
+  }
+}

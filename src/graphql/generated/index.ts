@@ -164,6 +164,10 @@ export type CreateProductInputDto = {
   weight?: InputMaybe<Scalars['String']>;
 };
 
+export type FavoriteProductInput = {
+  productId: Scalars['String'];
+};
+
 export type FilterProductInput = {
   price_gte?: InputMaybe<Scalars['Float']>;
   price_lte?: InputMaybe<Scalars['Float']>;
@@ -204,6 +208,10 @@ export type GetProductResponse = {
   product?: Maybe<ProductPayload>;
 };
 
+export type IsFavoriteProductInput = {
+  productId: Scalars['String'];
+};
+
 export type ListCommentInput = {
   id: Scalars['String'];
 };
@@ -230,6 +238,11 @@ export type ListMessageInput = {
 export type ListMessageResponse = {
   __typename?: 'ListMessageResponse';
   data: Array<MessageDtoType>;
+};
+
+export type ListOrderResponse = {
+  __typename?: 'ListOrderResponse';
+  orders?: Maybe<Array<OrderDto>>;
 };
 
 export type LoginResponse = {
@@ -296,6 +309,7 @@ export type Mutation = {
   createProduct: BooleanPayload;
   createType: BooleanPayload;
   deleteProduct: BooleanPayload;
+  favoriteProduct: BooleanPayload;
   inValidOtp: ConfirmOtpResponse;
   loginSocial: LoginResponse;
   loginUser: LoginResponse;
@@ -364,6 +378,11 @@ export type MutationDeleteProductArgs = {
 };
 
 
+export type MutationFavoriteProductArgs = {
+  input: FavoriteProductInput;
+};
+
+
 export type MutationInValidOtpArgs = {
   input: ConfirmOtpRequestInput;
 };
@@ -413,11 +432,51 @@ export type MutationVerifyPhoneArgs = {
   input: VerifyPhoneInputDto;
 };
 
+export type OrderDto = {
+  __typename?: 'OrderDto';
+  _id?: Maybe<Scalars['String']>;
+  amount?: Maybe<Scalars['Float']>;
+  code?: Maybe<Scalars['String']>;
+  couponCode?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['Float']>;
+  description?: Maybe<Scalars['String']>;
+  discountAmount?: Maybe<Scalars['Float']>;
+  items?: Maybe<Array<OrderItemResponse>>;
+  paymentMethod?: Maybe<PaymentMethod>;
+  shippingAddress?: Maybe<Scalars['String']>;
+  shippingStatus?: Maybe<ShippingStatus>;
+  status?: Maybe<OrderStatus>;
+  subTotal?: Maybe<Scalars['Float']>;
+  transaction?: Maybe<OrderTransactionType>;
+  userId?: Maybe<UserDtoType>;
+};
+
 export type OrderItem = {
   id: Scalars['String'];
   image?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
   quantity: Scalars['Float'];
+};
+
+export type OrderItemResponse = {
+  __typename?: 'OrderItemResponse';
+  id?: Maybe<ProductPayload>;
+  name?: Maybe<Scalars['String']>;
+  price: Scalars['Float'];
+  quantity: Scalars['Float'];
+};
+
+export enum OrderStatus {
+  Completed = 'COMPLETED',
+  Failed = 'FAILED',
+  Pending = 'PENDING'
+}
+
+export type OrderTransactionType = {
+  __typename?: 'OrderTransactionType';
+  gateway?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
+  time?: Maybe<Scalars['Float']>;
 };
 
 export type PaginationBaseInput = {
@@ -517,9 +576,12 @@ export type Query = {
   getListProduct: GetListProductResponse;
   getMe: UserDtoType;
   getProduct: GetProductResponse;
+  isFavoriteProduct: BooleanPayload;
   listComment: ListCommentResponse;
   listConversation: ListConversationResponse;
   listMessage: ListMessageResponse;
+  listOrderAdmin: ListOrderResponse;
+  listOrderUser: ListOrderResponse;
   listType: GetListTypeResponse;
 };
 
@@ -531,6 +593,11 @@ export type QueryGetListProductArgs = {
 
 export type QueryGetProductArgs = {
   input: ReadProductInputDto;
+};
+
+
+export type QueryIsFavoriteProductArgs = {
+  input: IsFavoriteProductInput;
 };
 
 
@@ -581,6 +648,12 @@ export type SendPinCodeInput = {
   email: Scalars['String'];
   pinCode: Scalars['String'];
 };
+
+export enum ShippingStatus {
+  NotShipped = 'NOT_SHIPPED',
+  Shipped = 'SHIPPED',
+  Shipping = 'SHIPPING'
+}
 
 export type Subscription = {
   __typename?: 'Subscription';
@@ -748,6 +821,13 @@ export type CreateCommentMutationVariables = Exact<{
 
 export type CreateCommentMutation = { __typename?: 'Mutation', createComment: { __typename?: 'CommentResponse', _id: string, message: string, productId?: string | null } };
 
+export type FavoriteProductMutationVariables = Exact<{
+  input: FavoriteProductInput;
+}>;
+
+
+export type FavoriteProductMutation = { __typename?: 'Mutation', favoriteProduct: { __typename?: 'BooleanPayload', success?: boolean | null } };
+
 export type GetListCommentQueryVariables = Exact<{
   input: ListCommentInput;
 }>;
@@ -768,6 +848,13 @@ export type GetProductQueryVariables = Exact<{
 
 
 export type GetProductQuery = { __typename?: 'Query', getProduct: { __typename?: 'GetProductResponse', product?: { __typename?: 'ProductPayload', _id?: string | null, name?: string | null, description?: string | null, price?: number | null, countInStock?: number | null, manufacturer?: string | null, modelNumber?: string | null, dimensions?: string | null, weight?: string | null, connectivity?: string | null, powerSource?: string | null, compatibility?: string | null, warranty?: string | null, totalLike?: number | null, totalComment?: number | null, type?: string | null, totalSold?: number | null, image?: { __typename?: 'Media', url?: string | null } | null } | null } };
+
+export type IsFavoriteProductQueryVariables = Exact<{
+  input: IsFavoriteProductInput;
+}>;
+
+
+export type IsFavoriteProductQuery = { __typename?: 'Query', isFavoriteProduct: { __typename?: 'BooleanPayload', success?: boolean | null } };
 
 export type ListTypeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -792,6 +879,11 @@ export type ListMessageQueryVariables = Exact<{
 
 
 export type ListMessageQuery = { __typename?: 'Query', listMessage: { __typename?: 'ListMessageResponse', data: Array<{ __typename?: 'MessageDtoType', content: string, createdAt?: number | null, senderId?: { __typename?: 'UserDtoType', _id?: string | null, fullName?: string | null, avatarId?: { __typename?: 'Media', url?: string | null } | null } | null }> } };
+
+export type ListOrderUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ListOrderUserQuery = { __typename?: 'Query', listOrderUser: { __typename?: 'ListOrderResponse', orders?: Array<{ __typename?: 'OrderDto', _id?: string | null, code?: string | null, status?: OrderStatus | null, amount?: number | null, description?: string | null, couponCode?: string | null, discountAmount?: number | null, subTotal?: number | null, paymentMethod?: PaymentMethod | null, shippingStatus?: ShippingStatus | null, shippingAddress?: string | null, createdAt?: number | null, transaction?: { __typename?: 'OrderTransactionType', gateway?: string | null, id?: string | null, time?: number | null } | null, items?: Array<{ __typename?: 'OrderItemResponse', name?: string | null, quantity: number, price: number, id?: { __typename?: 'ProductPayload', _id?: string | null, name?: string | null, image?: { __typename?: 'Media', url?: string | null } | null } | null }> | null, userId?: { __typename?: 'UserDtoType', _id?: string | null, fullName?: string | null, avatarId?: { __typename?: 'Media', url?: string | null } | null } | null }> | null } };
 
 export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1041,6 +1133,26 @@ export const useCreateCommentMutation = <
       (variables?: CreateCommentMutationVariables) => fetcher<CreateCommentMutation, CreateCommentMutationVariables>(client, CreateCommentDocument, variables, headers)(),
       options
     );
+export const FavoriteProductDocument = `
+    mutation favoriteProduct($input: FavoriteProductInput!) {
+  favoriteProduct(input: $input) {
+    success
+  }
+}
+    `;
+export const useFavoriteProductMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<FavoriteProductMutation, TError, FavoriteProductMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<FavoriteProductMutation, TError, FavoriteProductMutationVariables, TContext>(
+      ['favoriteProduct'],
+      (variables?: FavoriteProductMutationVariables) => fetcher<FavoriteProductMutation, FavoriteProductMutationVariables>(client, FavoriteProductDocument, variables, headers)(),
+      options
+    );
 export const GetListCommentDocument = `
     query getListComment($input: ListCommentInput!) {
   listComment(input: $input) {
@@ -1150,6 +1262,27 @@ export const useGetProductQuery = <
       fetcher<GetProductQuery, GetProductQueryVariables>(client, GetProductDocument, variables, headers),
       options
     );
+export const IsFavoriteProductDocument = `
+    query isFavoriteProduct($input: IsFavoriteProductInput!) {
+  isFavoriteProduct(input: $input) {
+    success
+  }
+}
+    `;
+export const useIsFavoriteProductQuery = <
+      TData = IsFavoriteProductQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: IsFavoriteProductQueryVariables,
+      options?: UseQueryOptions<IsFavoriteProductQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<IsFavoriteProductQuery, TError, TData>(
+      ['isFavoriteProduct', variables],
+      fetcher<IsFavoriteProductQuery, IsFavoriteProductQueryVariables>(client, IsFavoriteProductDocument, variables, headers),
+      options
+    );
 export const ListTypeDocument = `
     query ListType {
   listType {
@@ -1246,6 +1379,64 @@ export const useListMessageQuery = <
     useQuery<ListMessageQuery, TError, TData>(
       ['listMessage', variables],
       fetcher<ListMessageQuery, ListMessageQueryVariables>(client, ListMessageDocument, variables, headers),
+      options
+    );
+export const ListOrderUserDocument = `
+    query listOrderUser {
+  listOrderUser {
+    orders {
+      _id
+      code
+      status
+      amount
+      description
+      couponCode
+      discountAmount
+      subTotal
+      paymentMethod
+      transaction {
+        gateway
+        id
+        time
+      }
+      items {
+        id {
+          _id
+          name
+          image {
+            url
+          }
+        }
+        name
+        quantity
+        price
+      }
+      shippingStatus
+      shippingAddress
+      createdAt
+      userId {
+        _id
+        fullName
+        avatarId {
+          url
+        }
+      }
+    }
+  }
+}
+    `;
+export const useListOrderUserQuery = <
+      TData = ListOrderUserQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: ListOrderUserQueryVariables,
+      options?: UseQueryOptions<ListOrderUserQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<ListOrderUserQuery, TError, TData>(
+      variables === undefined ? ['listOrderUser'] : ['listOrderUser', variables],
+      fetcher<ListOrderUserQuery, ListOrderUserQueryVariables>(client, ListOrderUserDocument, variables, headers),
       options
     );
 export const GetMeDocument = `

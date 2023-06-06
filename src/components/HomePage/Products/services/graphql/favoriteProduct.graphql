@@ -1,0 +1,5 @@
+mutation favoriteProduct($input: FavoriteProductInput!) {
+  favoriteProduct(input: $input) {
+    success
+  }
+}

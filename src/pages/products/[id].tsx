@@ -45,6 +45,9 @@ import useModalStore, { StoreModal } from '@/store/useModalStore';
 import Notification from '@/components/Notification';
 import useCartStore from '@/store/useCartStore';
 import { useRouter } from 'next/router';
+import useFavoriteProduct from '@/components/HomePage/Products/services/hooks/useFavoriteProduct';
+import { useIsFavoriteProduct } from '@/components/HomePage/Products/services/hooks/useIsFavoriteProduct';
+import { MdFavorite } from 'react-icons/md';
 
 interface Props {
   data?: any;
@@ -103,6 +106,7 @@ const DetailProduct = ({ data }: Props) => {
   const openModal = useModalStore((state: any) => state.openModal);
   const { user } = useUserStore(store => store) as UserStore;
   const { addItem, setDirectBuy } = useCartStore((store: any) => store);
+  const { handleFavoriteProduct, favoriteProductLoading } = useFavoriteProduct();
   const router = useRouter();
 
   let imageUser;
@@ -119,6 +123,10 @@ const DetailProduct = ({ data }: Props) => {
   const [quantity, setQuantity] = useState(1);
   const [showComment, setShowComment] = useState(true);
   const [userComment, setUserComment] = useState('');
+  const { isFavoriteProduct } = useIsFavoriteProduct(productId);
+
+  const [like, setLike] = useState(product.totalLike);
+  const [comment, setComment] = useState(product.totalComment);
 
   const handleIncrement = () => {
     setQuantity(quantity + 1);
@@ -138,6 +146,7 @@ const DetailProduct = ({ data }: Props) => {
     if (user) {
       handleCreateComment(userComment, productId);
       setUserComment('');
+      setComment((prev: number) => prev + 1);
     } else {
       Notification.Info('Bạn chưa đăng nhập tài khoản !');
       openModal(StoreModal.LOGIN);
@@ -161,14 +170,23 @@ const DetailProduct = ({ data }: Props) => {
       <Imagewrapper>
         <ImageProduct src={'http://127.0.0.1:7007/' + product.image.url} alt={product.name} />
         <DetailOfUsers>
-          <Link href="">
-            <GiSelfLove />
-            {product.totalLike + '  Đã thích'}
-          </Link>
-          <Link href="" onClick={() => setShowComment(!showComment)}>
+          <button
+            onClick={() => {
+              handleFavoriteProduct(productId);
+              if (!favoriteProductLoading && !isFavoriteProduct) {
+                setLike((prev: number) => prev + 1);
+              } else if (!favoriteProductLoading && isFavoriteProduct && like > 0) {
+                setLike((prev: number) => prev - 1);
+              }
+            }}
+          >
+            {isFavoriteProduct ? <MdFavorite /> : <GiSelfLove />}
+            {like + '  Đã thích'}
+          </button>
+          <button onClick={() => setShowComment(!showComment)}>
             <TfiComment />
-            {product.totalLike + ' Bình luận'}
-          </Link>
+            {comment + ' Bình luận'}
+          </button>
           <span>
             <AiOutlineIdcard /> {product.totalSold + ' Đã bán'}
           </span>

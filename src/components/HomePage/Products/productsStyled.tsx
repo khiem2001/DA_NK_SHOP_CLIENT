@@ -254,9 +254,9 @@ export const DetailOfUsers = styled.span`
   margin: 60px 10px;
   display: flex;
   font-size: 22px;
-  a,
+  button,
   span {
-    margin-right: 65px;
+    margin-right: 45px;
     svg {
       display: inline-block;
       margin-right: 8px;

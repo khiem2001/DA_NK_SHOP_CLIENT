@@ -44,6 +44,12 @@ export default function Navbar() {
 
     const tabs = [
       {
+        id: 3,
+        text: 'ĐƠN HÀNG',
+        linksTo: '/order',
+        icon: '/images/account/image_order.svg'
+      },
+      {
         id: 'user_profile',
         text: 'TÀI KHOẢN',
         linksTo: '/setting/profile',
