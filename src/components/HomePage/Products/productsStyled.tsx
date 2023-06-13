@@ -113,6 +113,7 @@ export const FilterTitle = styled.div`
   input {
     background-color: #c0bebe;
     padding: 5px;
+    padding-left: 50px;
     color: #0804f7;
     font-weight: bold;
   }
