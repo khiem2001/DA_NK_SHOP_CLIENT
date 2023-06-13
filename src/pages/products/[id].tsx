@@ -75,6 +75,7 @@ export async function getStaticPaths() {
       params: { id: product?._id?.toString() }
     };
   });
+  console.log(paths);
   return {
     paths,
     fallback: false
@@ -201,6 +202,12 @@ const DetailProduct = ({ data }: Props) => {
             <DetailItem>
               <DetailLabel>Thương hiệu:</DetailLabel>
               <DetailValue>{product.manufacturer}</DetailValue>
+            </DetailItem>
+          )}
+          {product?.type && (
+            <DetailItem>
+              <DetailLabel>Phân loại:</DetailLabel>
+              <DetailValue>{product.type}</DetailValue>
             </DetailItem>
           )}
           {product?.modelNumber && (
