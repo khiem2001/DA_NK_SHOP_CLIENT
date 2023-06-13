@@ -75,10 +75,9 @@ export async function getStaticPaths() {
       params: { id: product?._id?.toString() }
     };
   });
-  console.log(paths);
   return {
     paths,
-    fallback: false
+    fallback: true
   };
 }
 
@@ -98,7 +97,7 @@ export async function getStaticProps({ params }: any) {
     props: {
       data: result
     },
-    revalidate: 10,
+    revalidate: 1,
     notFound
   };
 }
