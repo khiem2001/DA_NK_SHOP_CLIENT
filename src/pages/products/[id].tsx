@@ -1,7 +1,7 @@
 import { GetListProductDocument, GetProductDocument } from '@/graphql/generated';
 import { graphqlClientRequest } from '@/graphql/services/graphql-client';
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { BsCartPlus } from 'react-icons/bs';
 import { GiSelfLove } from 'react-icons/gi';
@@ -37,7 +37,6 @@ import {
 } from '@/components/HomePage/Products/productsStyled';
 import { useListComment } from '@/components/HomePage/Products/services/hooks/useListComment';
 import { formatCurrency } from '@/utils/format-currency';
-import Image from 'next/image';
 import useUserStore, { UserStore } from '@/store/useUserStore';
 import Loading from '@/components/Loading';
 import useCreateComment from '@/components/HomePage/Products/services/hooks/useCreateComment';
@@ -115,8 +114,8 @@ const DetailProduct = ({ data }: Props) => {
   } else {
     imageUser = '/images/account/default-avatar-image.jpg';
   }
-  const product = data.getProduct.product;
-  const [productId, setProductId] = useState(product._id);
+  const product = data?.getProduct?.product;
+  const [productId, setProductId] = useState(product?._id);
   const { listComment, isLoading } = useListComment({ id: productId });
   const { handleCreateComment } = useCreateComment();
 
@@ -125,8 +124,8 @@ const DetailProduct = ({ data }: Props) => {
   const [userComment, setUserComment] = useState('');
   const { isFavoriteProduct } = useIsFavoriteProduct(productId);
 
-  const [like, setLike] = useState(product.totalLike);
-  const [comment, setComment] = useState(product.totalComment);
+  const [like, setLike] = useState(product?.totalLike);
+  const [comment, setComment] = useState(product?.totalComment);
 
   const handleIncrement = () => {
     setQuantity(quantity + 1);
@@ -168,7 +167,7 @@ const DetailProduct = ({ data }: Props) => {
   return (
     <DetailProductContainer>
       <Imagewrapper>
-        <ImageProduct src={'http://127.0.0.1:7007/' + product.image.url} alt={product.name} />
+        <ImageProduct src={'http://127.0.0.1:7007/' + product?.image.url} alt={product?.name} />
         <DetailOfUsers>
           <button
             onClick={() => {
@@ -188,19 +187,19 @@ const DetailProduct = ({ data }: Props) => {
             {comment + ' Bình luận'}
           </button>
           <span>
-            <AiOutlineIdcard /> {product.totalSold + ' Đã bán'}
+            <AiOutlineIdcard /> {product?.totalSold + ' Đã bán'}
           </span>
         </DetailOfUsers>
       </Imagewrapper>
       <InfoWrapper>
-        <Title>{product.name}</Title>
-        <Description>{product.description}</Description>
-        <Price>{formatCurrency(product.price)}</Price>
+        <Title>{product?.name}</Title>
+        <Description>{product?.description}</Description>
+        <Price>{formatCurrency(product?.price)}</Price>
         <Details>
           {product?.manufacturer && (
             <DetailItem>
               <DetailLabel>Thương hiệu:</DetailLabel>
-              <DetailValue>{product.manufacturer}</DetailValue>
+              <DetailValue>{product?.manufacturer}</DetailValue>
             </DetailItem>
           )}
           {product?.type && (
@@ -212,7 +211,7 @@ const DetailProduct = ({ data }: Props) => {
           {product?.modelNumber && (
             <DetailItem>
               <DetailLabel>Model:</DetailLabel>
-              <DetailValue>{product.modelNumber}</DetailValue>
+              <DetailValue>{product?.modelNumber}</DetailValue>
             </DetailItem>
           )}
           {product?.dimensions && (
