@@ -148,7 +148,7 @@ const DetailProduct = ({ data }: Props) => {
       setUserComment('');
       setComment((prev: number) => prev + 1);
     } else {
-      Notification.Info('Bạn chưa đăng nhập tài khoản !');
+      Notification.Info('Bạn chưa đăng nhập tài khoản!');
       openModal(StoreModal.LOGIN);
     }
   };
