@@ -1,0 +1,5 @@
+mutation sendEmail($input: SendPinCodeInput!) {
+  sendEmail(input: $input) {
+    sessionId
+  }
+}

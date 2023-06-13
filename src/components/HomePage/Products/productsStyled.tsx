@@ -9,7 +9,7 @@ export const ProductsWrapper = styled.div`
   color: ${colors.dark_color};
   display: flex;
   flex-direction: column;
-  padding-top: 200px;
+  padding-top: 50px;
 `;
 
 export const ListProduct = styled.div`
@@ -35,7 +35,6 @@ export const ItemWrapper = styled.div`
 `;
 
 export const ItemImage = styled.img`
-  object-fit: cover;
   width: 100%;
   height: ${pixel2vw(100)};
   object-fit: cover;
@@ -101,16 +100,25 @@ export const ItemDetail = styled.div`
 `;
 
 export const FilterWrapper = styled.div`
-  margin: 100px 15%;
+  margin: 90px 15% 20px;
   display: flex;
   flex-direction: column;
+  border-top: 2px solid black;
 `;
 
 export const FilterTitle = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   background-color: #c0bebe;
-
+  input {
+    background-color: #c0bebe;
+    padding: 5px;
+    color: #0804f7;
+    font-weight: bold;
+  }
+  input::placeholder {
+    color: #000000; /* Màu sắc của placeholder */
+  }
   a {
     color: #000000;
     font-size: 20px;
@@ -124,18 +132,9 @@ export const FilterTitle = styled.div`
       margin-left: 5px;
     }
   }
-  a:nth-child(1) {
-    border-right: 2px solid #ccc;
-  }
-
-  a:nth-child(2) {
-    border-left: 2px solid #ccc;
-  }
 `;
 
-export const FilterDetail = styled.div`
-  width: 100%;
-`;
+export const FilterDetail = styled.div``;
 
 export const FilterType = styled.div`
   width: 50%;

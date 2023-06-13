@@ -50,7 +50,7 @@ const Order = () => {
       cell: (row: any) => (
         <div>
           {row.items.map((obj: any) => (
-            <Link href={'/products/' + obj.id._id} className="flex ">
+            <Link href={'/products/' + obj.id._id} className="flex " key={obj.id._id}>
               <ImageItem src={`${process.env.NEXT_PUBLIC_MEDIA_ENDPOINT}${obj?.id?.image?.url || ''}`} />
               <div className="ml-2 text-blue-700 text-sm">{obj.id.name}</div>
             </Link>
@@ -90,7 +90,7 @@ const Order = () => {
       selector: (row: any) => (
         <div className="text-white bg-black p-2 text-sm  ">
           {row.shippingStatus === ShippingStatus.NotShipped
-            ? 'Người gửi đang chuẩn bị hàng'
+            ? 'Đơn hàng đang chờ xét duyệt'
             : row.shippingStatus === ShippingStatus.Shipping
             ? 'Đơn hàng đang được vận chuyển'
             : 'Đơn hàng đã được giao'}

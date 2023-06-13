@@ -6,7 +6,10 @@ query getMe {
     verified
     birthday
     address
+    email
+    gender
     avatarId {
+      _id
       url
     }
     verifyPhone

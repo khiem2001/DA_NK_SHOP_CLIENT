@@ -13,7 +13,9 @@ const Products = () => {
   const [price_lte, setPriceLte] = useState(0);
   const [price_gte, setPriceGte] = useState(0);
   const [type_eq, setTypeEq] = useState('');
+  const [query, setQuery] = useState('');
   const [input, setInput] = useState({
+    query: query,
     filter: {},
     pagination: {
       limit: limit,
@@ -58,17 +60,18 @@ const Products = () => {
     }
 
     setInput({
+      query: query,
       filter: filter,
       pagination: {
         limit: limit,
         page: page
       }
     });
-  }, [type_eq, price_gte, price_lte, limit, page]);
+  }, [type_eq, price_gte, price_lte, limit, page, query]);
 
   return (
     <ProductsWrapper>
-      <FilterProducts onFilterChange={handleFilterChange} />
+      <FilterProducts onFilterChange={handleFilterChange} setQuery={setQuery} />
 
       <>
         {isLoading ? (

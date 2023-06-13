@@ -1,0 +1,5 @@
+mutation updateAvatarUser($input: UpdateAvatarInput!) {
+  updateAvatarUser(input: $input) {
+    success
+  }
+}

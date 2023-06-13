@@ -3,10 +3,13 @@ import logoImage from 'public/images/logo2.jpg';
 import Image from 'next/image';
 import AuthModal from '../AuthModal';
 import LogoutModal from '../LogoutModal/logoutModal';
+import { GiPositionMarker } from 'react-icons/gi';
+import { BsTelephoneOutboundFill } from 'react-icons/bs';
+import { AiFillMail } from 'react-icons/ai';
 
 const FooterContainer = styled.footer`
   background-color: #000000;
-  padding: 20px;
+  padding: 40px;
   text-align: center;
   img {
     width: 150px;
@@ -17,8 +20,9 @@ const FooterContainer = styled.footer`
 
 const FooterText = styled.p`
   color: #ffffff;
-  font-size: 14px;
-  margin-bottom: 5px;
+  font-size: 16px;
+  margin-bottom: 10px;
+  align-items: center;
 `;
 
 const Footer = () => {
@@ -26,12 +30,25 @@ const Footer = () => {
     <>
       <LogoutModal />
       <AuthModal />
-      <FooterContainer>
-        <FooterText>175 Tây Sơn, Đống Đa, Hà Nội</FooterText>
-        <FooterText>Số điện thoại: 0368278857</FooterText>
-        <FooterText>Email: khiem22072001@gmail.com</FooterText>
-        <FooterText>© Copyright 2023 NKSHOP.</FooterText>
+      <FooterContainer className="grid grid-cols-3 items-center ">
         <Image src={logoImage} alt="Logo" />
+
+        <div>
+          <FooterText className="flex align-middle ">
+            <GiPositionMarker className="mr-2 items-center" />
+            175 Tây Sơn, Đống Đa, Hà Nội
+          </FooterText>
+          <FooterText className="flex align-middle">
+            <BsTelephoneOutboundFill className="mr-2" />
+            0368278857
+          </FooterText>
+          <FooterText className="flex align-middle">
+            <AiFillMail className="mr-2" />
+            khiem22072001@gmail.com
+          </FooterText>
+        </div>
+
+        <FooterText>© Copyright 2023 NKSHOP.</FooterText>
       </FooterContainer>
     </>
   );

@@ -84,6 +84,10 @@ export type CommentResponse = {
   user?: Maybe<UserDtoType>;
 };
 
+export type ConfirmOrderInput = {
+  orderId: Scalars['String'];
+};
+
 export type ConfirmOtpRequestInput = {
   otp: Scalars['String'];
   sessionId: Scalars['String'];
@@ -153,7 +157,7 @@ export type CreateProductInputDto = {
   countInStock: Scalars['Float'];
   description: Scalars['String'];
   dimensions?: InputMaybe<Scalars['String']>;
-  image: Scalars['String'];
+  image?: InputMaybe<Scalars['String']>;
   manufacturer?: InputMaybe<Scalars['String']>;
   modelNumber?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
@@ -162,6 +166,10 @@ export type CreateProductInputDto = {
   type: Scalars['String'];
   warranty?: InputMaybe<Scalars['String']>;
   weight?: InputMaybe<Scalars['String']>;
+};
+
+export type DeleteTypeInput = {
+  typeId: Scalars['String'];
 };
 
 export type FavoriteProductInput = {
@@ -227,7 +235,7 @@ export type ListConversationInput = {
 
 export type ListConversationResponse = {
   __typename?: 'ListConversationResponse';
-  data: Array<ConversationDtoType>;
+  data?: Maybe<Array<ConversationDtoType>>;
 };
 
 export type ListMessageInput = {
@@ -243,6 +251,11 @@ export type ListMessageResponse = {
 export type ListOrderResponse = {
   __typename?: 'ListOrderResponse';
   orders?: Maybe<Array<OrderDto>>;
+};
+
+export type ListUserResponse = {
+  __typename?: 'ListUserResponse';
+  user: Array<UserDtoType>;
 };
 
 export type LoginResponse = {
@@ -301,6 +314,7 @@ export type Mutation = {
   adminLogin: AdminLoginResponse;
   changePassword: ChangePasswordResponse;
   changePasswordWhenLogin: ChangePassWhenLoginType;
+  confirmOrder: BooleanPayload;
   confirmOtp: ConfirmOtpResponse;
   createAdmin: BooleanPayload;
   createComment: CommentResponse;
@@ -309,16 +323,18 @@ export type Mutation = {
   createProduct: BooleanPayload;
   createType: BooleanPayload;
   deleteProduct: BooleanPayload;
+  deleteType: BooleanPayload;
   favoriteProduct: BooleanPayload;
   inValidOtp: ConfirmOtpResponse;
   loginSocial: LoginResponse;
   loginUser: LoginResponse;
   registerUser: RegisterUserResponse;
-  sendEmailVerify: BooleanPayload;
+  sendEmail: SendEmailResponse;
   sendOtp: SendOtpResponse;
   updateAvatarUser: BooleanPayload;
   updateProduct: BooleanPayload;
   updateProfile: UpdateProfileResponse;
+  verifyEmail: BooleanPayload;
   verifyPhone: VerifyPhoneResponse;
 };
 
@@ -335,6 +351,11 @@ export type MutationChangePasswordArgs = {
 
 export type MutationChangePasswordWhenLoginArgs = {
   input: ChangePassWhenLoginInput;
+};
+
+
+export type MutationConfirmOrderArgs = {
+  input: ConfirmOrderInput;
 };
 
 
@@ -378,6 +399,11 @@ export type MutationDeleteProductArgs = {
 };
 
 
+export type MutationDeleteTypeArgs = {
+  input: DeleteTypeInput;
+};
+
+
 export type MutationFavoriteProductArgs = {
   input: FavoriteProductInput;
 };
@@ -403,7 +429,7 @@ export type MutationRegisterUserArgs = {
 };
 
 
-export type MutationSendEmailVerifyArgs = {
+export type MutationSendEmailArgs = {
   input: SendPinCodeInput;
 };
 
@@ -425,6 +451,11 @@ export type MutationUpdateProductArgs = {
 
 export type MutationUpdateProfileArgs = {
   input: UpdateProfileInputDto;
+};
+
+
+export type MutationVerifyEmailArgs = {
+  input: VerifyEmailInput;
 };
 
 
@@ -512,18 +543,24 @@ export enum PaymentType {
   Cc = 'CC'
 }
 
+export type PrintOrderType = {
+  __typename?: 'PrintOrderType';
+  pdfPath?: Maybe<Scalars['String']>;
+};
+
 export type ProductInputDto = {
   compatibility?: InputMaybe<Scalars['String']>;
   connectivity?: InputMaybe<Scalars['String']>;
   countInStock: Scalars['Float'];
   description: Scalars['String'];
   dimensions?: InputMaybe<Scalars['String']>;
-  image: Scalars['String'];
+  image?: InputMaybe<Scalars['String']>;
   manufacturer?: InputMaybe<Scalars['String']>;
   modelNumber?: InputMaybe<Scalars['String']>;
   name: Scalars['String'];
   powerSource?: InputMaybe<Scalars['String']>;
   price: Scalars['Float'];
+  type: Scalars['String'];
   warranty?: InputMaybe<Scalars['String']>;
   weight?: InputMaybe<Scalars['String']>;
 };
@@ -578,11 +615,13 @@ export type Query = {
   getProduct: GetProductResponse;
   isFavoriteProduct: BooleanPayload;
   listComment: ListCommentResponse;
-  listConversation: ListConversationResponse;
+  listConversation?: Maybe<ListConversationResponse>;
   listMessage: ListMessageResponse;
   listOrderAdmin: ListOrderResponse;
   listOrderUser: ListOrderResponse;
   listType: GetListTypeResponse;
+  listUser: ListUserResponse;
+  printOrder: PrintOrderType;
 };
 
 
@@ -615,6 +654,11 @@ export type QueryListMessageArgs = {
   input: ListMessageInput;
 };
 
+
+export type QueryPrintOrderArgs = {
+  input: ConfirmOrderInput;
+};
+
 export type ReadProductInputDto = {
   productId: Scalars['String'];
 };
@@ -633,6 +677,11 @@ export type RegisterUserResponse = {
   sessionId: Scalars['String'];
 };
 
+export type SendEmailResponse = {
+  __typename?: 'SendEmailResponse';
+  sessionId?: Maybe<Scalars['String']>;
+};
+
 export type SendOtpRequestInput = {
   phoneNumber: Scalars['String'];
 };
@@ -646,7 +695,6 @@ export type SendOtpResponse = {
 
 export type SendPinCodeInput = {
   email: Scalars['String'];
-  pinCode: Scalars['String'];
 };
 
 export enum ShippingStatus {
@@ -676,9 +724,9 @@ export type UpdateProductInputDto = {
 
 export type UpdateProfileInputDto = {
   address?: InputMaybe<Scalars['String']>;
+  avatarId?: InputMaybe<Scalars['String']>;
   birthday?: InputMaybe<Scalars['String']>;
   country?: InputMaybe<Scalars['String']>;
-  email?: InputMaybe<Scalars['String']>;
   fullName?: InputMaybe<Scalars['String']>;
   gender?: InputMaybe<Gender>;
 };
@@ -722,6 +770,7 @@ export type UserPayload = {
   createdAt?: Maybe<Scalars['Float']>;
   email?: Maybe<Scalars['String']>;
   fullName?: Maybe<Scalars['String']>;
+  gender?: Maybe<Gender>;
   password?: Maybe<Scalars['String']>;
   phoneNumber?: Maybe<Scalars['String']>;
   twoFactorAuthenticationSecret?: Maybe<Scalars['Boolean']>;
@@ -729,6 +778,11 @@ export type UserPayload = {
   verified?: Maybe<Scalars['Boolean']>;
   verifyEmail?: Maybe<Scalars['Boolean']>;
   verifyPhone?: Maybe<Scalars['Boolean']>;
+};
+
+export type VerifyEmailInput = {
+  otp: Scalars['String'];
+  sessionId: Scalars['String'];
 };
 
 export type VerifyPhoneInputDto = {
@@ -885,10 +939,38 @@ export type ListOrderUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type ListOrderUserQuery = { __typename?: 'Query', listOrderUser: { __typename?: 'ListOrderResponse', orders?: Array<{ __typename?: 'OrderDto', _id?: string | null, code?: string | null, status?: OrderStatus | null, amount?: number | null, description?: string | null, couponCode?: string | null, discountAmount?: number | null, subTotal?: number | null, paymentMethod?: PaymentMethod | null, shippingStatus?: ShippingStatus | null, shippingAddress?: string | null, createdAt?: number | null, transaction?: { __typename?: 'OrderTransactionType', gateway?: string | null, id?: string | null, time?: number | null } | null, items?: Array<{ __typename?: 'OrderItemResponse', name?: string | null, quantity: number, price: number, id?: { __typename?: 'ProductPayload', _id?: string | null, name?: string | null, image?: { __typename?: 'Media', url?: string | null } | null } | null }> | null, userId?: { __typename?: 'UserDtoType', _id?: string | null, fullName?: string | null, avatarId?: { __typename?: 'Media', url?: string | null } | null } | null }> | null } };
 
+export type SendEmailMutationVariables = Exact<{
+  input: SendPinCodeInput;
+}>;
+
+
+export type SendEmailMutation = { __typename?: 'Mutation', sendEmail: { __typename?: 'SendEmailResponse', sessionId?: string | null } };
+
+export type UpdateAvatarUserMutationVariables = Exact<{
+  input: UpdateAvatarInput;
+}>;
+
+
+export type UpdateAvatarUserMutation = { __typename?: 'Mutation', updateAvatarUser: { __typename?: 'BooleanPayload', success?: boolean | null } };
+
+export type UpdateProfileMutationVariables = Exact<{
+  input: UpdateProfileInputDto;
+}>;
+
+
+export type UpdateProfileMutation = { __typename?: 'Mutation', updateProfile: { __typename?: 'UpdateProfileResponse', updated: boolean } };
+
+export type VerifyEmailMutationVariables = Exact<{
+  input: VerifyEmailInput;
+}>;
+
+
+export type VerifyEmailMutation = { __typename?: 'Mutation', verifyEmail: { __typename?: 'BooleanPayload', success?: boolean | null } };
+
 export type GetMeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetMeQuery = { __typename?: 'Query', getMe: { __typename?: 'UserDtoType', _id?: string | null, fullName?: string | null, phoneNumber?: string | null, verified?: boolean | null, birthday?: number | null, address?: string | null, verifyPhone?: boolean | null, verifyEmail?: boolean | null, avatarId?: { __typename?: 'Media', url?: string | null } | null } };
+export type GetMeQuery = { __typename?: 'Query', getMe: { __typename?: 'UserDtoType', _id?: string | null, fullName?: string | null, phoneNumber?: string | null, verified?: boolean | null, birthday?: number | null, address?: string | null, email?: string | null, gender?: Gender | null, verifyPhone?: boolean | null, verifyEmail?: boolean | null, avatarId?: { __typename?: 'Media', _id?: string | null, url?: string | null } | null } };
 
 
 export const ComfirmWhenResendDocument = `
@@ -1439,6 +1521,86 @@ export const useListOrderUserQuery = <
       fetcher<ListOrderUserQuery, ListOrderUserQueryVariables>(client, ListOrderUserDocument, variables, headers),
       options
     );
+export const SendEmailDocument = `
+    mutation sendEmail($input: SendPinCodeInput!) {
+  sendEmail(input: $input) {
+    sessionId
+  }
+}
+    `;
+export const useSendEmailMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<SendEmailMutation, TError, SendEmailMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<SendEmailMutation, TError, SendEmailMutationVariables, TContext>(
+      ['sendEmail'],
+      (variables?: SendEmailMutationVariables) => fetcher<SendEmailMutation, SendEmailMutationVariables>(client, SendEmailDocument, variables, headers)(),
+      options
+    );
+export const UpdateAvatarUserDocument = `
+    mutation updateAvatarUser($input: UpdateAvatarInput!) {
+  updateAvatarUser(input: $input) {
+    success
+  }
+}
+    `;
+export const useUpdateAvatarUserMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateAvatarUserMutation, TError, UpdateAvatarUserMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateAvatarUserMutation, TError, UpdateAvatarUserMutationVariables, TContext>(
+      ['updateAvatarUser'],
+      (variables?: UpdateAvatarUserMutationVariables) => fetcher<UpdateAvatarUserMutation, UpdateAvatarUserMutationVariables>(client, UpdateAvatarUserDocument, variables, headers)(),
+      options
+    );
+export const UpdateProfileDocument = `
+    mutation updateProfile($input: UpdateProfileInputDto!) {
+  updateProfile(input: $input) {
+    updated
+  }
+}
+    `;
+export const useUpdateProfileMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<UpdateProfileMutation, TError, UpdateProfileMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<UpdateProfileMutation, TError, UpdateProfileMutationVariables, TContext>(
+      ['updateProfile'],
+      (variables?: UpdateProfileMutationVariables) => fetcher<UpdateProfileMutation, UpdateProfileMutationVariables>(client, UpdateProfileDocument, variables, headers)(),
+      options
+    );
+export const VerifyEmailDocument = `
+    mutation verifyEmail($input: VerifyEmailInput!) {
+  verifyEmail(input: $input) {
+    success
+  }
+}
+    `;
+export const useVerifyEmailMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<VerifyEmailMutation, TError, VerifyEmailMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<VerifyEmailMutation, TError, VerifyEmailMutationVariables, TContext>(
+      ['verifyEmail'],
+      (variables?: VerifyEmailMutationVariables) => fetcher<VerifyEmailMutation, VerifyEmailMutationVariables>(client, VerifyEmailDocument, variables, headers)(),
+      options
+    );
 export const GetMeDocument = `
     query getMe {
   getMe {
@@ -1448,7 +1610,10 @@ export const GetMeDocument = `
     verified
     birthday
     address
+    email
+    gender
     avatarId {
+      _id
       url
     }
     verifyPhone

@@ -7,9 +7,10 @@ import { Formik, Form, Field } from 'formik';
 
 interface IProps {
   onFilterChange: (priceGte?: number, priceLte?: number, typeEq?: string) => void;
+  setQuery: any;
 }
 
-const FilterProducts = ({ onFilterChange }: IProps) => {
+const FilterProducts = ({ onFilterChange, setQuery }: IProps) => {
   const { listType, isLoading } = useListType();
   const [showFormType, setShowFormType] = useState(false);
   const [showFormPrice, setShowFormPrice] = useState(false);
@@ -28,12 +29,18 @@ const FilterProducts = ({ onFilterChange }: IProps) => {
   return (
     <FilterWrapper>
       <FilterTitle>
+        <input
+          placeholder="Tìm kiếm sản phẩm..."
+          className="border-r-2"
+          onChange={(e: any) => setQuery(e.target.value)}
+        ></input>
         <Link
           href={''}
           onClick={() => {
             setTypeEq('');
             setShowFormType(!showFormType);
           }}
+          className="border-r-2"
         >
           Phân loại
           {showFormType ? <IoIosArrowUp /> : <IoIosArrowDown />}
@@ -50,73 +57,74 @@ const FilterProducts = ({ onFilterChange }: IProps) => {
           {showFormPrice ? <IoIosArrowUp /> : <IoIosArrowDown />}
         </Link>
       </FilterTitle>
+      <div className="flex justify-end">
+        <FilterDetail className="w-2/3 ">
+          {showFormType && (
+            <FilterType>
+              <Formik
+                initialValues={{ name: '' }}
+                onSubmit={values => {
+                  setTypeEq(values?.name);
+                }}
+              >
+                {({ values, setFieldValue, submitForm }) => (
+                  <Form>
+                    {listType.map(obj => (
+                      <label key={obj._id}>
+                        <Field
+                          type="radio"
+                          name="name"
+                          value={obj.name}
+                          checked={values.name === obj.name}
+                          onChange={() => {
+                            setFieldValue('name', obj.name);
+                            submitForm();
+                          }}
+                        ></Field>
+                        {obj.name}
+                      </label>
+                    ))}
+                  </Form>
+                )}
+              </Formik>
+            </FilterType>
+          )}
 
-      <FilterDetail>
-        {showFormType && (
-          <FilterType>
-            <Formik
-              initialValues={{ name: '' }}
-              onSubmit={values => {
-                setTypeEq(values?.name);
-              }}
-            >
-              {({ values, setFieldValue, submitForm }) => (
-                <Form>
-                  {listType.map(obj => (
-                    <label key={obj._id}>
-                      <Field
-                        type="radio"
-                        name="name"
-                        value={obj.name}
-                        checked={values.name === obj.name}
-                        onChange={() => {
-                          setFieldValue('name', obj.name);
-                          submitForm();
-                        }}
-                      ></Field>
-                      {obj.name}
-                    </label>
-                  ))}
-                </Form>
-              )}
-            </Formik>
-          </FilterType>
-        )}
-
-        {showFormPrice && (
-          <FilterPrice>
-            <Formik
-              initialValues={{ price_gte: 0, price_lte: 0 }}
-              onSubmit={values => {
-                setPriceGte(values.price_gte);
-                setPriceLte(values.price_lte);
-              }}
-            >
-              {({ values, setFieldValue, submitForm }) => (
-                <Form>
-                  {priceOptions.map(obj => (
-                    <label key={obj.value}>
-                      <Field
-                        type="radio"
-                        name="price"
-                        value={obj.value}
-                        checked={`${values.price_gte}-${values.price_lte}` === obj.value}
-                        onChange={() => {
-                          const [gte, lte] = obj.value.split('-');
-                          setFieldValue('price_gte', gte);
-                          setFieldValue('price_lte', lte);
-                          submitForm();
-                        }}
-                      />
-                      {obj.label}
-                    </label>
-                  ))}
-                </Form>
-              )}
-            </Formik>
-          </FilterPrice>
-        )}
-      </FilterDetail>
+          {showFormPrice && (
+            <FilterPrice>
+              <Formik
+                initialValues={{ price_gte: 0, price_lte: 0 }}
+                onSubmit={values => {
+                  setPriceGte(values.price_gte);
+                  setPriceLte(values.price_lte);
+                }}
+              >
+                {({ values, setFieldValue, submitForm }) => (
+                  <Form>
+                    {priceOptions.map(obj => (
+                      <label key={obj.value}>
+                        <Field
+                          type="radio"
+                          name="price"
+                          value={obj.value}
+                          checked={`${values.price_gte}-${values.price_lte}` === obj.value}
+                          onChange={() => {
+                            const [gte, lte] = obj.value.split('-');
+                            setFieldValue('price_gte', gte);
+                            setFieldValue('price_lte', lte);
+                            submitForm();
+                          }}
+                        />
+                        {obj.label}
+                      </label>
+                    ))}
+                  </Form>
+                )}
+              </Formik>
+            </FilterPrice>
+          )}
+        </FilterDetail>
+      </div>
     </FilterWrapper>
   );
 };

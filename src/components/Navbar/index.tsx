@@ -52,7 +52,7 @@ export default function Navbar() {
       {
         id: 'user_profile',
         text: 'TÀI KHOẢN',
-        linksTo: '/setting/profile',
+        linksTo: '/profile',
         icon: '/images/account/image_Account.svg'
       },
       {
