@@ -34,18 +34,18 @@ const Order = () => {
       name: 'Mã Đơn Hàng',
       selector: (row: any) => <span className="bg-slate-600 p-2 text-white">{row.code}</span>
     },
-    // {
-    //   name: 'Ngày Mua',
-    //   selector: (row: any) => {
-    //     const createdAt = row.createdAt ? new Date(row.createdAt) : new Date();
+    {
+      name: 'Ngày Mua',
+      selector: (row: any) => {
+        const createdAt = row.createdAt ? new Date(row.createdAt) : new Date();
 
-    //     const options = { timeZone: 'UTC' };
-    //     createdAt.setUTCHours(createdAt.getUTCHours() + 7); // Thêm 7 giờ để chuyển đổi múi giờ
-    //     const localDateTime = createdAt.toLocaleString('en-US', options);
-    //     return localDateTime;
-    //   },
-    //   sortable: true
-    // },
+        const options = { timeZone: 'UTC' };
+        createdAt.setUTCHours(createdAt.getUTCHours() + 7); // Thêm 7 giờ để chuyển đổi múi giờ
+        const localDateTime = createdAt.toLocaleString('en-US', options);
+        return localDateTime;
+      },
+      sortable: true
+    },
     {
       name: 'Danh Sách Sản Phẩm',
       cell: (row: any) => (

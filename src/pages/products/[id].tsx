@@ -76,7 +76,7 @@ export async function getStaticPaths() {
   });
   return {
     paths,
-    fallback: true
+    fallback: false
   };
 }
 
@@ -298,7 +298,7 @@ const DetailProduct = ({ data }: Props) => {
                     <DetailComment>
                       <div>
                         <span>{obj.user?.fullName}</span>
-                        {/* <span>
+                        <span>
                           {(() => {
                             const createdAt = obj.createdAt ? new Date(obj.createdAt) : new Date();
                             createdAt.setUTCHours(createdAt.getUTCHours() + 7); // Thêm 7 giờ để chuyển đổi múi giờ
@@ -306,7 +306,7 @@ const DetailProduct = ({ data }: Props) => {
                             const localDateTime = createdAt.toLocaleString('en-US', options);
                             return localDateTime;
                           })()}
-                        </span> */}
+                        </span>
                       </div>
                       <ContentComment>{obj.message}</ContentComment>
                     </DetailComment>
