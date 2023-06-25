@@ -111,7 +111,7 @@ export default function Navbar() {
               </button>
             </Item>
             <Item isSelected={false}>
-              <Link href="/">
+              <Link href="/checkout">
                 <RiShoppingCartLine />
               </Link>
             </Item>

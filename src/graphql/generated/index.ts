@@ -24,6 +24,11 @@ export type Scalars = {
   Float: number;
 };
 
+export type AddToCartInput = {
+  productId: Scalars['String'];
+  quantity: Scalars['Float'];
+};
+
 export type AdminInputDto = {
   password: Scalars['String'];
   userName: Scalars['String'];
@@ -49,6 +54,16 @@ export type AdminPayload = {
 export type BooleanPayload = {
   __typename?: 'BooleanPayload';
   success?: Maybe<Scalars['Boolean']>;
+};
+
+export type CartType = {
+  __typename?: 'CartType';
+  _id?: Maybe<Scalars['String']>;
+  price?: Maybe<Scalars['Float']>;
+  productId?: Maybe<Scalars['String']>;
+  quantity?: Maybe<Scalars['Float']>;
+  status?: Maybe<Scalars['Boolean']>;
+  userId?: Maybe<Scalars['String']>;
 };
 
 export type ChangePassWhenLoginInput = {
@@ -220,6 +235,11 @@ export type IsFavoriteProductInput = {
   productId: Scalars['String'];
 };
 
+export type ListCartType = {
+  __typename?: 'ListCartType';
+  cart?: Maybe<Array<CartType>>;
+};
+
 export type ListCommentInput = {
   id: Scalars['String'];
 };
@@ -256,6 +276,10 @@ export type ListOrderResponse = {
 export type ListUserResponse = {
   __typename?: 'ListUserResponse';
   user: Array<UserDtoType>;
+};
+
+export type LockOrUnLockUserInput = {
+  id?: InputMaybe<Scalars['String']>;
 };
 
 export type LoginResponse = {
@@ -311,9 +335,11 @@ export type MessageDtoType = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addToCart: BooleanPayload;
   adminLogin: AdminLoginResponse;
   changePassword: ChangePasswordResponse;
   changePasswordWhenLogin: ChangePassWhenLoginType;
+  clearCart: BooleanPayload;
   confirmOrder: BooleanPayload;
   confirmOtp: ConfirmOtpResponse;
   createAdmin: BooleanPayload;
@@ -326,9 +352,11 @@ export type Mutation = {
   deleteType: BooleanPayload;
   favoriteProduct: BooleanPayload;
   inValidOtp: ConfirmOtpResponse;
+  lockOrUnLockUser: BooleanPayload;
   loginSocial: LoginResponse;
   loginUser: LoginResponse;
   registerUser: RegisterUserResponse;
+  removeFromCart: BooleanPayload;
   sendEmail: SendEmailResponse;
   sendOtp: SendOtpResponse;
   updateAvatarUser: BooleanPayload;
@@ -336,6 +364,11 @@ export type Mutation = {
   updateProfile: UpdateProfileResponse;
   verifyEmail: BooleanPayload;
   verifyPhone: VerifyPhoneResponse;
+};
+
+
+export type MutationAddToCartArgs = {
+  input: AddToCartInput;
 };
 
 
@@ -414,6 +447,11 @@ export type MutationInValidOtpArgs = {
 };
 
 
+export type MutationLockOrUnLockUserArgs = {
+  input: LockOrUnLockUserInput;
+};
+
+
 export type MutationLoginSocialArgs = {
   input: LoginSocialInputDto;
 };
@@ -426,6 +464,11 @@ export type MutationLoginUserArgs = {
 
 export type MutationRegisterUserArgs = {
   input: RegisterUserInputDto;
+};
+
+
+export type MutationRemoveFromCartArgs = {
+  input: RemoveFromCartInput;
 };
 
 
@@ -614,6 +657,7 @@ export type Query = {
   getMe: UserDtoType;
   getProduct: GetProductResponse;
   isFavoriteProduct: BooleanPayload;
+  listCart: ListCartType;
   listComment: ListCommentResponse;
   listConversation?: Maybe<ListConversationResponse>;
   listMessage: ListMessageResponse;
@@ -675,6 +719,10 @@ export type RegisterUserResponse = {
   otpExpiredTime: Scalars['Float'];
   phoneNumber?: Maybe<Scalars['String']>;
   sessionId: Scalars['String'];
+};
+
+export type RemoveFromCartInput = {
+  _id: Scalars['String'];
 };
 
 export type SendEmailResponse = {
@@ -861,12 +909,36 @@ export type VerifyPhoneMutationVariables = Exact<{
 
 export type VerifyPhoneMutation = { __typename?: 'Mutation', verifyPhone: { __typename?: 'VerifyPhoneResponse', verified: boolean } };
 
+export type AddToCartMutationVariables = Exact<{
+  input: AddToCartInput;
+}>;
+
+
+export type AddToCartMutation = { __typename?: 'Mutation', addToCart: { __typename?: 'BooleanPayload', success?: boolean | null } };
+
+export type ClearCartMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ClearCartMutation = { __typename?: 'Mutation', clearCart: { __typename?: 'BooleanPayload', success?: boolean | null } };
+
 export type CreatePaymentMutationVariables = Exact<{
   input: CreatePaymentInputDto;
 }>;
 
 
 export type CreatePaymentMutation = { __typename?: 'Mutation', createPayment: { __typename?: 'CreatePaymentResponse', redirectUrl?: string | null, success?: boolean | null } };
+
+export type ListCartQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ListCartQuery = { __typename?: 'Query', listCart: { __typename?: 'ListCartType', cart?: Array<{ __typename?: 'CartType', userId?: string | null, _id?: string | null, quantity?: number | null, productId?: string | null, status?: boolean | null, price?: number | null }> | null } };
+
+export type RemoveFromCartMutationVariables = Exact<{
+  input: RemoveFromCartInput;
+}>;
+
+
+export type RemoveFromCartMutation = { __typename?: 'Mutation', removeFromCart: { __typename?: 'BooleanPayload', success?: boolean | null } };
 
 export type CreateCommentMutationVariables = Exact<{
   input: CreateCommentInput;
@@ -1172,6 +1244,46 @@ export const useVerifyPhoneMutation = <
       (variables?: VerifyPhoneMutationVariables) => fetcher<VerifyPhoneMutation, VerifyPhoneMutationVariables>(client, VerifyPhoneDocument, variables, headers)(),
       options
     );
+export const AddToCartDocument = `
+    mutation addToCart($input: AddToCartInput!) {
+  addToCart(input: $input) {
+    success
+  }
+}
+    `;
+export const useAddToCartMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<AddToCartMutation, TError, AddToCartMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<AddToCartMutation, TError, AddToCartMutationVariables, TContext>(
+      ['addToCart'],
+      (variables?: AddToCartMutationVariables) => fetcher<AddToCartMutation, AddToCartMutationVariables>(client, AddToCartDocument, variables, headers)(),
+      options
+    );
+export const ClearCartDocument = `
+    mutation clearCart {
+  clearCart {
+    success
+  }
+}
+    `;
+export const useClearCartMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<ClearCartMutation, TError, ClearCartMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<ClearCartMutation, TError, ClearCartMutationVariables, TContext>(
+      ['clearCart'],
+      (variables?: ClearCartMutationVariables) => fetcher<ClearCartMutation, ClearCartMutationVariables>(client, ClearCartDocument, variables, headers)(),
+      options
+    );
 export const CreatePaymentDocument = `
     mutation createPayment($input: CreatePaymentInputDto!) {
   createPayment(input: $input) {
@@ -1191,6 +1303,54 @@ export const useCreatePaymentMutation = <
     useMutation<CreatePaymentMutation, TError, CreatePaymentMutationVariables, TContext>(
       ['createPayment'],
       (variables?: CreatePaymentMutationVariables) => fetcher<CreatePaymentMutation, CreatePaymentMutationVariables>(client, CreatePaymentDocument, variables, headers)(),
+      options
+    );
+export const ListCartDocument = `
+    query listCart {
+  listCart {
+    cart {
+      userId
+      _id
+      quantity
+      productId
+      status
+      price
+    }
+  }
+}
+    `;
+export const useListCartQuery = <
+      TData = ListCartQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: ListCartQueryVariables,
+      options?: UseQueryOptions<ListCartQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<ListCartQuery, TError, TData>(
+      variables === undefined ? ['listCart'] : ['listCart', variables],
+      fetcher<ListCartQuery, ListCartQueryVariables>(client, ListCartDocument, variables, headers),
+      options
+    );
+export const RemoveFromCartDocument = `
+    mutation removeFromCart($input: RemoveFromCartInput!) {
+  removeFromCart(input: $input) {
+    success
+  }
+}
+    `;
+export const useRemoveFromCartMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(
+      client: GraphQLClient,
+      options?: UseMutationOptions<RemoveFromCartMutation, TError, RemoveFromCartMutationVariables, TContext>,
+      headers?: RequestInit['headers']
+    ) =>
+    useMutation<RemoveFromCartMutation, TError, RemoveFromCartMutationVariables, TContext>(
+      ['removeFromCart'],
+      (variables?: RemoveFromCartMutationVariables) => fetcher<RemoveFromCartMutation, RemoveFromCartMutationVariables>(client, RemoveFromCartDocument, variables, headers)(),
       options
     );
 export const CreateCommentDocument = `

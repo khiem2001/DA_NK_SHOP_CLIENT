@@ -1,0 +1,12 @@
+query listCart {
+  listCart {
+    cart {
+      userId
+      _id
+      quantity
+      productId
+      status
+      price
+    }
+  }
+}

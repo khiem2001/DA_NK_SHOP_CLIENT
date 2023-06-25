@@ -7,6 +7,7 @@ import RadioButton from '@/components/Radio';
 import CreaditCardIcon from '@/components/Icon/credit_card';
 import PrimaryButton from '@/components/Button/PrimaryButton';
 import { FaCreditCard, FaMoneyBill } from 'react-icons/fa';
+import useClearCart from '../../services/hooks/useClearCart';
 
 type Props = {
   onCheckout: (
@@ -21,6 +22,7 @@ type Props = {
 };
 
 const CheckoutSummary = (props: Props) => {
+  const { handleClearCart } = useClearCart();
   const { selectedItems, onCheckout, isLoading, address } = props;
   const total = (selectedItems || [])?.reduce((total, item) => (total + (item?.price || 0)) * item.quantity, 0);
   const [shippingAddress, setShippingAddress] = useState(address);
@@ -32,6 +34,7 @@ const CheckoutSummary = (props: Props) => {
   };
 
   const handleCheckout = () => {
+    handleClearCart();
     onCheckout(paymentMethod, shippingAddress, paymentProvider, paymentType);
   };
 

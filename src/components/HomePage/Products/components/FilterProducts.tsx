@@ -27,7 +27,7 @@ const FilterProducts = ({ onFilterChange, setQuery }: IProps) => {
     onFilterChange(+price_gte, +price_lte, type_eq);
   }, [type_eq, price_gte, price_lte]);
   return (
-    <FilterWrapper>
+    <FilterWrapper className="md:mx-14 md:my-12 2xl:mx-60 2xl:my-20">
       <FilterTitle>
         <input
           placeholder="Tìm kiếm sản phẩm..."

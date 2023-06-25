@@ -47,6 +47,7 @@ import { useRouter } from 'next/router';
 import useFavoriteProduct from '@/components/HomePage/Products/services/hooks/useFavoriteProduct';
 import { useIsFavoriteProduct } from '@/components/HomePage/Products/services/hooks/useIsFavoriteProduct';
 import { MdFavorite } from 'react-icons/md';
+import useAddToCart from '@/components/CheckoutPage/services/hooks/useAddToCart';
 
 interface Props {
   data?: any;
@@ -104,8 +105,9 @@ export async function getStaticProps({ params }: any) {
 const DetailProduct = ({ data }: Props) => {
   const openModal = useModalStore((state: any) => state.openModal);
   const { user } = useUserStore(store => store) as UserStore;
-  const { addItem, setDirectBuy } = useCartStore((store: any) => store);
+  const { addItem, setDirectBuy, clear } = useCartStore((store: any) => store);
   const { handleFavoriteProduct, favoriteProductLoading } = useFavoriteProduct();
+  const { handleAddToCart } = useAddToCart();
   const router = useRouter();
 
   let imageUser;
@@ -154,10 +156,25 @@ const DetailProduct = ({ data }: Props) => {
 
   const handleBuyProduct = (e: any) => {
     e.preventDefault();
+
     if (user) {
+      clear();
       setDirectBuy(true);
       addItem({ productId, quantity, status: true, price: product.price });
       router.push('/checkout');
+    } else {
+      Notification.Info('Đăng nhập tài khoản để mua sản phẩm!');
+      openModal(StoreModal.LOGIN);
+    }
+  };
+  const submitAddToCart = (e: any) => {
+    e.preventDefault();
+
+    if (user) {
+      handleAddToCart({
+        quantity,
+        productId
+      });
     } else {
       Notification.Info('Đăng nhập tài khoản để mua sản phẩm!');
       openModal(StoreModal.LOGIN);
@@ -259,7 +276,7 @@ const DetailProduct = ({ data }: Props) => {
           <CountInStockLabel>{product.countInStock + ' sản phẩm có sẵn'}</CountInStockLabel>
         </Quantity>
         <BuyWrapper>
-          <Link href="/djsjd">
+          <Link href="/" onClick={submitAddToCart}>
             <BsCartPlus /> Thêm Vào Giỏ Hàng
           </Link>
           <ButtonBuy onClick={handleBuyProduct}>Mua Ngay</ButtonBuy>

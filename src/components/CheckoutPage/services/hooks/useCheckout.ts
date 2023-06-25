@@ -5,8 +5,10 @@ import { showErrorMessage } from '@/utils/error';
 import { randomText } from '@/utils/string';
 import useCartStore, { CartStore } from '@/store/useCartStore';
 import Notification from '@/components/Notification';
+import { useListCart } from './useListCart';
 
 const useCheckout = () => {
+  const { listCart } = useListCart();
   const { items, isDirectBuy } = useCartStore(store => store) as CartStore;
   const clearCart = useCartStore((store: any) => store.clear);
   const [listItem, setListItem] = useState<any>([]);
@@ -34,8 +36,10 @@ const useCheckout = () => {
   useEffect(() => {
     if (isDirectBuy) {
       setListItem([...items]);
+    } else {
+      setListItem(listCart);
     }
-  }, [isDirectBuy, items]);
+  }, [isDirectBuy, items, listCart]);
 
   const changeQuantity = useCallback(
     (itemId: string, quantity: number) => {

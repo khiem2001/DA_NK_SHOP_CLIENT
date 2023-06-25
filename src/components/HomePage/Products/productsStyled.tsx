@@ -17,7 +17,16 @@ export const ListProduct = styled.div`
   padding: ${pixel2vw(30)};
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  grid-gap: ${pixel2vw(30)};
+  grid-gap: ${pixel2vw(25)};
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 10px;
+    grid-gap: ${pixel2vw(10)};
+  }
 `;
 
 export const ItemWrapper = styled.div`
@@ -26,8 +35,12 @@ export const ItemWrapper = styled.div`
   background-color: #fff;
   box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  width: 230px;
   transition: transform 0.2s ease-in-out;
-
+  @media (max-width: 768px) {
+    width: 200px;
+    margin: auto;
+  }
   &:hover {
     transform: translateY(-0.25rem);
     box-shadow: 0 0 1rem rgba(255, 105, 180, 0.5);
@@ -100,7 +113,7 @@ export const ItemDetail = styled.div`
 `;
 
 export const FilterWrapper = styled.div`
-  margin: 90px 15% 20px;
+  /* margin: 90px 15% 20px; */
   display: flex;
   flex-direction: column;
   border-top: 2px solid black;
@@ -110,12 +123,39 @@ export const FilterTitle = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   background-color: #c0bebe;
+
+  @media (max-width: 768px) {
+    margin: 50px 10px 0px;
+
+    grid-template-columns: 1fr 1fr;
+
+    grid-template-areas:
+      'item1 item1'
+      'item2 item3';
+
+    a:first-child {
+      grid-area: item1;
+    }
+
+    a:nth-child(2) {
+      grid-area: item2;
+    }
+
+    a:nth-child(3) {
+      grid-area: item3;
+    }
+  }
+
   input {
     background-color: #c0bebe;
     padding: 5px;
     padding-left: 50px;
     color: #0804f7;
     font-weight: bold;
+    @media (max-width: 768px) {
+      padding-left: 10px;
+      border-bottom: 1px solid white;
+    }
   }
   input::placeholder {
     color: #000000; /* Màu sắc của placeholder */
@@ -135,7 +175,12 @@ export const FilterTitle = styled.div`
   }
 `;
 
-export const FilterDetail = styled.div``;
+export const FilterDetail = styled.div`
+  @media (max-width: 768px) {
+    width: 100%;
+    margin: 0 10px;
+  }
+`;
 
 export const FilterType = styled.div`
   width: 50%;
