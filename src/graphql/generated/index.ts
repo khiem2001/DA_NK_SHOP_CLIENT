@@ -91,6 +91,7 @@ export type ChangePasswordResponse = {
 export type CommentResponse = {
   __typename?: 'CommentResponse';
   _id: Scalars['String'];
+  countFeedback?: Maybe<Scalars['Float']>;
   createdAt?: Maybe<Scalars['Float']>;
   message: Scalars['String'];
   parentId?: Maybe<Scalars['String']>;
@@ -258,6 +259,10 @@ export type ListConversationResponse = {
   data?: Maybe<Array<ConversationDtoType>>;
 };
 
+export type ListFeedbackInput = {
+  parentId: Scalars['String'];
+};
+
 export type ListMessageInput = {
   conversationId: Scalars['String'];
   pagination: PaginationBaseInput;
@@ -344,6 +349,7 @@ export type Mutation = {
   confirmOtp: ConfirmOtpResponse;
   createAdmin: BooleanPayload;
   createComment: CommentResponse;
+  createCommentAdmin: CommentResponse;
   createConversation: CreateConversationType;
   createPayment: CreatePaymentResponse;
   createProduct: BooleanPayload;
@@ -355,6 +361,7 @@ export type Mutation = {
   lockOrUnLockUser: BooleanPayload;
   loginSocial: LoginResponse;
   loginUser: LoginResponse;
+  printOrder: PrintOrderType;
   registerUser: RegisterUserResponse;
   removeFromCart: BooleanPayload;
   sendEmail: SendEmailResponse;
@@ -403,6 +410,11 @@ export type MutationCreateAdminArgs = {
 
 
 export type MutationCreateCommentArgs = {
+  input: CreateCommentInput;
+};
+
+
+export type MutationCreateCommentAdminArgs = {
   input: CreateCommentInput;
 };
 
@@ -459,6 +471,11 @@ export type MutationLoginSocialArgs = {
 
 export type MutationLoginUserArgs = {
   input: LoginUserInputDto;
+};
+
+
+export type MutationPrintOrderArgs = {
+  input: ConfirmOrderInput;
 };
 
 
@@ -651,6 +668,7 @@ export enum Provider {
 
 export type Query = {
   __typename?: 'Query';
+  detailOrder: OrderDto;
   getAdmin: AdminPayload;
   getIdAdmin: GetIdAdminResponse;
   getListProduct: GetListProductResponse;
@@ -660,12 +678,17 @@ export type Query = {
   listCart: ListCartType;
   listComment: ListCommentResponse;
   listConversation?: Maybe<ListConversationResponse>;
+  listFeedback: ListCommentResponse;
   listMessage: ListMessageResponse;
   listOrderAdmin: ListOrderResponse;
   listOrderUser: ListOrderResponse;
   listType: GetListTypeResponse;
   listUser: ListUserResponse;
-  printOrder: PrintOrderType;
+};
+
+
+export type QueryDetailOrderArgs = {
+  input: ConfirmOrderInput;
 };
 
 
@@ -694,13 +717,13 @@ export type QueryListConversationArgs = {
 };
 
 
-export type QueryListMessageArgs = {
-  input: ListMessageInput;
+export type QueryListFeedbackArgs = {
+  input: ListFeedbackInput;
 };
 
 
-export type QueryPrintOrderArgs = {
-  input: ConfirmOrderInput;
+export type QueryListMessageArgs = {
+  input: ListMessageInput;
 };
 
 export type ReadProductInputDto = {
@@ -959,7 +982,14 @@ export type GetListCommentQueryVariables = Exact<{
 }>;
 
 
-export type GetListCommentQuery = { __typename?: 'Query', listComment: { __typename?: 'ListCommentResponse', data?: Array<{ __typename?: 'CommentResponse', _id: string, message: string, createdAt?: number | null, user?: { __typename?: 'UserDtoType', fullName?: string | null, avatarId?: { __typename?: 'Media', url?: string | null } | null } | null }> | null } };
+export type GetListCommentQuery = { __typename?: 'Query', listComment: { __typename?: 'ListCommentResponse', data?: Array<{ __typename?: 'CommentResponse', _id: string, message: string, createdAt?: number | null, countFeedback?: number | null, user?: { __typename?: 'UserDtoType', fullName?: string | null, avatarId?: { __typename?: 'Media', url?: string | null } | null } | null }> | null } };
+
+export type GetListFeedbackQueryVariables = Exact<{
+  input: ListFeedbackInput;
+}>;
+
+
+export type GetListFeedbackQuery = { __typename?: 'Query', listFeedback: { __typename?: 'ListCommentResponse', data?: Array<{ __typename?: 'CommentResponse', _id: string, parentId?: string | null, message: string, createdAt?: number | null, user?: { __typename?: 'UserDtoType', fullName?: string | null, avatarId?: { __typename?: 'Media', url?: string | null } | null } | null }> | null } };
 
 export type GetListProductQueryVariables = Exact<{
   input: GetListProductInput;
@@ -1408,6 +1438,7 @@ export const GetListCommentDocument = `
       }
       message
       createdAt
+      countFeedback
     }
   }
 }
@@ -1424,6 +1455,38 @@ export const useGetListCommentQuery = <
     useQuery<GetListCommentQuery, TError, TData>(
       ['getListComment', variables],
       fetcher<GetListCommentQuery, GetListCommentQueryVariables>(client, GetListCommentDocument, variables, headers),
+      options
+    );
+export const GetListFeedbackDocument = `
+    query getListFeedback($input: ListFeedbackInput!) {
+  listFeedback(input: $input) {
+    data {
+      _id
+      user {
+        avatarId {
+          url
+        }
+        fullName
+      }
+      parentId
+      message
+      createdAt
+    }
+  }
+}
+    `;
+export const useGetListFeedbackQuery = <
+      TData = GetListFeedbackQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables: GetListFeedbackQueryVariables,
+      options?: UseQueryOptions<GetListFeedbackQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<GetListFeedbackQuery, TError, TData>(
+      ['getListFeedback', variables],
+      fetcher<GetListFeedbackQuery, GetListFeedbackQueryVariables>(client, GetListFeedbackDocument, variables, headers),
       options
     );
 export const GetListProductDocument = `

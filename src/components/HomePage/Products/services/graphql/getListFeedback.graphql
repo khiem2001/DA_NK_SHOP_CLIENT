@@ -1,5 +1,5 @@
-query getListComment($input: ListCommentInput!) {
-  listComment(input: $input) {
+query getListFeedback($input: ListFeedbackInput!) {
+  listFeedback(input: $input) {
     data {
       _id
       user {
@@ -8,9 +8,9 @@ query getListComment($input: ListCommentInput!) {
         }
         fullName
       }
+      parentId
       message
       createdAt
-      countFeedback
     }
   }
 }

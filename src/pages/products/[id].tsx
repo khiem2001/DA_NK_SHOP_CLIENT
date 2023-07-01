@@ -3,7 +3,7 @@ import { graphqlClientRequest } from '@/graphql/services/graphql-client';
 import React from 'react';
 import { useState } from 'react';
 import Link from 'next/link';
-import { BsCartPlus } from 'react-icons/bs';
+import { BsCartPlus, BsChevronDown, BsChevronUp } from 'react-icons/bs';
 import { GiSelfLove } from 'react-icons/gi';
 import { TfiComment } from 'react-icons/tfi';
 import { AiOutlineIdcard } from 'react-icons/ai';
@@ -48,6 +48,7 @@ import useFavoriteProduct from '@/components/HomePage/Products/services/hooks/us
 import { useIsFavoriteProduct } from '@/components/HomePage/Products/services/hooks/useIsFavoriteProduct';
 import { MdFavorite } from 'react-icons/md';
 import useAddToCart from '@/components/CheckoutPage/services/hooks/useAddToCart';
+import { useListFeedback } from '@/components/HomePage/Products/services/hooks/useListFeedback';
 
 interface Props {
   data?: any;
@@ -128,6 +129,9 @@ const DetailProduct = ({ data }: Props) => {
 
   const [like, setLike] = useState(product?.totalLike);
   const [comment, setComment] = useState(product?.totalComment);
+  const [parentId, setParentId] = useState('');
+  const { listFeedback } = useListFeedback(parentId);
+  const [showFeedback, setShowFeedBack] = useState(false);
 
   const handleIncrement = () => {
     setQuantity(quantity + 1);
@@ -305,29 +309,87 @@ const DetailProduct = ({ data }: Props) => {
             ) : listComment?.data ? (
               <div>
                 {listComment?.data?.map((obj, index) => (
-                  <ItemComment key={index}>
-                    <ImageCommon
-                      src={`http://127.0.0.1:7007/${obj.user?.avatarId?.url}`}
-                      alt="Ảnh người dùng"
-                      width={500}
-                      height={500}
-                    />
-                    <DetailComment>
-                      <div>
-                        <span>{obj.user?.fullName}</span>
-                        <span>
-                          {(() => {
-                            const createdAt = obj.createdAt ? new Date(obj.createdAt) : new Date();
-                            createdAt.setUTCHours(createdAt.getUTCHours() + 7); // Thêm 7 giờ để chuyển đổi múi giờ
-                            const options = { timeZone: 'UTC' };
-                            const localDateTime = createdAt.toLocaleString('en-US', options);
-                            return localDateTime;
-                          })()}
-                        </span>
-                      </div>
-                      <ContentComment>{obj.message}</ContentComment>
-                    </DetailComment>
-                  </ItemComment>
+                  <div>
+                    <ItemComment key={index} className="shadow-md bg-slate-200">
+                      <ImageCommon
+                        src={`http://127.0.0.1:7007/${obj.user?.avatarId?.url}`}
+                        alt="Ảnh người dùng"
+                        width={500}
+                        height={500}
+                      />
+                      <DetailComment>
+                        <div>
+                          <span className="!text-black">{obj.user?.fullName}</span>
+                          <span className="!text-black">
+                            {(() => {
+                              const createdAt = obj.createdAt ? new Date(obj.createdAt) : new Date();
+                              createdAt.setUTCHours(createdAt.getUTCHours() + 7); // Thêm 7 giờ để chuyển đổi múi giờ
+                              const options = { timeZone: 'UTC' };
+                              const localDateTime = createdAt.toLocaleString('en-US', options);
+                              return localDateTime;
+                            })()}
+                          </span>
+                        </div>
+                        <ContentComment>{obj.message}</ContentComment>
+                        {obj.countFeedback !== 0 ? (
+                          <button
+                            className="ml-5 text-sm text-gray-600 flex items-center"
+                            onClick={() => {
+                              setParentId(obj._id);
+                              setShowFeedBack(!showFeedback);
+                            }}
+                          >
+                            {obj.countFeedback} phản hồi{' '}
+                            {parentId === obj._id && showFeedback ? (
+                              <BsChevronUp className="ml-1" />
+                            ) : (
+                              <BsChevronDown className="ml-1" />
+                            )}
+                          </button>
+                        ) : (
+                          <></>
+                        )}
+                      </DetailComment>
+                    </ItemComment>
+                    <div className="ml-16">
+                      {listFeedback.data &&
+                        parentId === obj._id &&
+                        showFeedback &&
+                        listFeedback.data.map((item: any, index: number) => (
+                          <ItemComment
+                            className="!bg-slate-200  shadow-md !grid !grid-cols-12 items-center"
+                            key={item._id}
+                          >
+                            <ImageCommon
+                              src={
+                                item.user?.avatarId
+                                  ? `http://127.0.0.1:7007/${item.user?.avatarId?.url}`
+                                  : '/images/account/admin.jpg'
+                              }
+                              alt="Ảnh người dùng"
+                              width={500}
+                              height={500}
+                              className="col-span-2"
+                            />
+                            <DetailComment className="col-span-10 flex flex-col">
+                              <div>
+                                <span className="!text-black">{item.user?.fullName || 'Admin'}</span>
+                                <span className="!text-black">
+                                  {(() => {
+                                    const createdAt = item.createdAt ? new Date(item.createdAt) : new Date();
+                                    createdAt.setUTCHours(createdAt.getUTCHours() + 7); // Thêm 7 giờ để chuyển đổi múi giờ
+                                    const options = { timeZone: 'UTC' };
+                                    const localDateTime = createdAt.toLocaleString('en-US', options);
+                                    return localDateTime;
+                                  })()}
+                                </span>
+                              </div>
+                              <ContentComment className="text-blue-900 line-clamp-2 ">{item.message}</ContentComment>
+                            </DetailComment>
+                          </ItemComment>
+                        ))}
+                    </div>
+                  </div>
                 ))}
               </div>
             ) : (

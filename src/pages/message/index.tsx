@@ -22,7 +22,7 @@ const MessagePage = () => {
     }
   }, [isLoading, user]);
 
-  return <div className="py-28 px-80">{show ? <Message /> : <LoadingCenter />}</div>;
+  return <div className="py-28 px-80 max-[1000px]:px-20">{show ? <Message /> : <LoadingCenter />}</div>;
 };
 
 export default MessagePage;
