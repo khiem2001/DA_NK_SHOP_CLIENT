@@ -922,7 +922,7 @@ export type LoginSocialMutationVariables = Exact<{
 }>;
 
 
-export type LoginSocialMutation = { __typename?: 'Mutation', loginSocial: { __typename?: 'LoginResponse', token: string, refreshToken: string, expiresAt: string, refreshTokenExpiresAt: string, payload?: { __typename?: 'UserPayload', _id: string, fullName?: string | null, phoneNumber?: string | null, verified?: boolean | null, birthday?: string | null, address?: string | null, avatarId?: { __typename?: 'Media', url?: string | null } | null } | null } };
+export type LoginSocialMutation = { __typename?: 'Mutation', loginSocial: { __typename?: 'LoginResponse', token: string, refreshToken: string, expiresAt: string, refreshTokenExpiresAt: string, payload?: { __typename?: 'UserPayload', _id: string, fullName?: string | null, phoneNumber?: string | null, verifyPhone?: boolean | null, verifyEmail?: boolean | null, verified?: boolean | null, birthday?: string | null, address?: string | null, avatarId?: { __typename?: 'Media', url?: string | null } | null } | null } };
 
 export type VerifyPhoneMutationVariables = Exact<{
   sessionId: Scalars['String'];
@@ -1231,6 +1231,8 @@ export const LoginSocialDocument = `
       _id
       fullName
       phoneNumber
+      verifyPhone
+      verifyEmail
       verified
       birthday
       address

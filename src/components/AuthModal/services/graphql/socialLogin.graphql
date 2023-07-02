@@ -8,6 +8,8 @@ mutation loginSocial($provider: Provider!, $accessToken: String!) {
       _id
       fullName
       phoneNumber
+      verifyPhone
+      verifyEmail
       verified
       birthday
       address

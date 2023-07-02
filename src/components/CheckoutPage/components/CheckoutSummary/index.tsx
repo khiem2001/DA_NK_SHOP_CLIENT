@@ -8,6 +8,7 @@ import CreaditCardIcon from '@/components/Icon/credit_card';
 import PrimaryButton from '@/components/Button/PrimaryButton';
 import { FaCreditCard, FaMoneyBill } from 'react-icons/fa';
 import useClearCart from '../../services/hooks/useClearCart';
+import Notification from '@/components/Notification';
 
 type Props = {
   onCheckout: (
@@ -24,18 +25,22 @@ type Props = {
 const CheckoutSummary = (props: Props) => {
   const { handleClearCart } = useClearCart();
   const { selectedItems, onCheckout, isLoading, address } = props;
-  const total = (selectedItems || [])?.reduce((total, item) => (total + (item?.price || 0)) * item.quantity, 0);
+  const total = (selectedItems || [])?.reduce((total, item) => total + (item?.price || 0) * item.quantity, 0);
   const [shippingAddress, setShippingAddress] = useState(address);
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>(PaymentMethod.Offline);
   const [paymentProvider, setPaymentProvider] = useState<PaymentProvider>(PaymentProvider.Zalopay);
-  const [paymentType, setPaymentType] = useState<PaymentType>(PaymentType.Atm);
+  const [paymentType, setPaymentType] = useState<PaymentType>(PaymentType.Cc);
   const handleChange = (e: any) => {
     setShippingAddress(e.target.value);
   };
 
   const handleCheckout = () => {
-    handleClearCart();
-    onCheckout(paymentMethod, shippingAddress, paymentProvider, paymentType);
+    if (shippingAddress === '') {
+      Notification.Info('Vui lòng điền địa chỉ nhận hàng!');
+    } else {
+      handleClearCart();
+      onCheckout(paymentMethod, shippingAddress, paymentProvider, paymentType);
+    }
   };
 
   return (
@@ -148,7 +153,6 @@ const CheckoutSummary = (props: Props) => {
               <div className="">
                 <RadioButton
                   name="PaymentType"
-                  defaultChecked={true}
                   onChange={() => {
                     setPaymentType(PaymentType.Atm);
                   }}
@@ -166,6 +170,7 @@ const CheckoutSummary = (props: Props) => {
               <div className="">
                 <RadioButton
                   name="PaymentType"
+                  defaultChecked={true}
                   onChange={() => {
                     setPaymentType(PaymentType.Cc);
                   }}
