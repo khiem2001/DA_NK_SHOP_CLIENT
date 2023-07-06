@@ -162,10 +162,14 @@ const DetailProduct = ({ data }: Props) => {
     e.preventDefault();
 
     if (user) {
-      clear();
-      setDirectBuy(true);
-      addItem({ productId, quantity, status: true, price: product.price });
-      router.push('/checkout');
+      if (product.countInStock === 0) {
+        Notification.Info('Đã hết hàng, vui lòng quay lại sau!');
+      } else {
+        clear();
+        setDirectBuy(true);
+        addItem({ productId, quantity, status: true, price: product.price });
+        router.push('/checkout');
+      }
     } else {
       Notification.Info('Đăng nhập tài khoản để mua sản phẩm!');
       openModal(StoreModal.LOGIN);
@@ -175,10 +179,14 @@ const DetailProduct = ({ data }: Props) => {
     e.preventDefault();
 
     if (user) {
-      handleAddToCart({
-        quantity,
-        productId
-      });
+      if (product.countInStock === 0) {
+        Notification.Info('Đã hết hàng, vui lòng quay lại sau!');
+      } else {
+        handleAddToCart({
+          quantity,
+          productId
+        });
+      }
     } else {
       Notification.Info('Đăng nhập tài khoản để mua sản phẩm!');
       openModal(StoreModal.LOGIN);
