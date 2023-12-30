@@ -113,7 +113,7 @@ const DetailProduct = ({ data }: Props) => {
 
   let imageUser;
   if (user?.avatarId?.url) {
-    imageUser = 'http://127.0.0.1:7007/' + user.avatarId.url;
+    imageUser = process.env.NEXT_PUBLIC_MEDIA_ENDPOINT + user.avatarId.url;
   } else {
     imageUser = '/images/account/default-avatar-image.jpg';
   }
@@ -196,7 +196,7 @@ const DetailProduct = ({ data }: Props) => {
   return (
     <DetailProductContainer>
       <Imagewrapper>
-        <ImageProduct src={'http://127.0.0.1:7007/' + product?.image.url} alt={product?.name} />
+        <ImageProduct src={process.env.NEXT_PUBLIC_MEDIA_ENDPOINT + product?.image.url} alt={product?.name} />
         <DetailOfUsers>
           <button
             onClick={() => {
