@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>NKShop</title>
+        <title>Moriitalia</title>
       </Head>
       <Products />
     </>

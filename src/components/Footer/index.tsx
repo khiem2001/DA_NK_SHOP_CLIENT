@@ -31,8 +31,11 @@ const Footer = () => {
       <LogoutModal />
       <AuthModal />
       <FooterContainer className="grid grid-cols-3 items-center ">
-        <Image src={logoImage} alt="Logo" />
-
+        {/* <Image src={logoImage} alt="Logo" /> */}
+        <div>
+          <h1>Moriitalia</h1>
+          <h1>Make Life Easier</h1>
+        </div>
         <div>
           <FooterText className="flex align-middle ">
             <GiPositionMarker className="mr-2 items-center" />
@@ -48,7 +51,7 @@ const Footer = () => {
           </FooterText>
         </div>
 
-        <FooterText>© Copyright 2023 NKSHOP.</FooterText>
+        <FooterText>© Copyright 2023 Moriitalia.</FooterText>
       </FooterContainer>
     </>
   );
