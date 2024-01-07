@@ -88,7 +88,7 @@ export default function Navbar() {
 
   return (
     <NavigatorHolder>
-      <h1 className="p-5 pl-10 text-2xl">Moriitalia</h1>
+      <h1 className="p-5 pl-10 text-2xl text-white">Moriitalia</h1>
       {/* <Link href="/">
         <Logo>
           <Image src={logoImage} alt="NKShop" />

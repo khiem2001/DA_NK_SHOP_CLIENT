@@ -32,7 +32,7 @@ const Footer = () => {
       <AuthModal />
       <FooterContainer className="grid grid-cols-3 items-center ">
         {/* <Image src={logoImage} alt="Logo" /> */}
-        <div>
+        <div className="text-white">
           <h1>Moriitalia</h1>
           <h1>Make Life Easier</h1>
         </div>
